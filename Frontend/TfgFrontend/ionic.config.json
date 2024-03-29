@@ -1,0 +1,7 @@
+{
+  "name": "TfgFrontend",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
