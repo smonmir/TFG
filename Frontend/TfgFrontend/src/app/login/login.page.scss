@@ -1,0 +1,41 @@
+
+.card{
+    margin-top: 10%;
+    margin-left: 30%;
+    margin-right: 30%;
+    padding: 2%;
+}
+
+.button{
+    padding-top: 20px;
+    padding-right: 10px;
+}
+
+
+@media (max-width: 1024px) {
+    .card{
+        margin-top: 10%;
+        margin-left: 20%;
+        margin-right: 20%;
+        padding: 2%;
+    }
+    
+}
+
+
+@media (max-width: 640px) {
+    .card{
+        margin-top: 10%;
+        margin-left: 10%;
+        margin-right: 10%;
+        padding: 2%;
+    }
+}
+
+@media (max-width: 465px) {
+    .card{
+        margin-top: 10%;
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+}
