@@ -26,11 +26,11 @@ export class PagoPage implements OnInit {
     this.servicio = this.servicioPago.getServicio();
   }
 
-  realizarPago() {
-    this.servicioPago.realizarPago()
-      .then(response => {
-        console.log('Pago realizado con éxito', response);
-        //this.router.navigate(['/success']); // Navega a una página de éxito
+  async realizarPago() {
+    await this.servicioPago.realizarPago()
+      .then(data => {
+        console.log('Pago realizado con éxito', data);
+        this.router.navigate(['/tabs/home']);
       })
       .catch(error => {
         console.error('Error realizando el pago', error);

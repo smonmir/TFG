@@ -28,14 +28,15 @@ export class PagoServiceService {
     }
 
     let datosPedido = {
-      fecha: new Date().toISOString(),
+      fecha: new Date(),
       precio: this.servicio.getPrecio(),
-      usuarioId: this.usuarioService.getUsuario().getId(),
-      servicioId: this.servicio.getId(),
-      estado: 'Pendiente'
+      usuario_id: this.usuarioService.getUsuario().getId(),
+      servicio_id: this.servicio.getId(),
+      estado_id: 8
     }
 
-    const data = await this.httpClient.post<any[]>(this.PEDIDO_URL, datosPedido, token)
+    
+    await this.httpClient.post<any[]>(this.PEDIDO_URL, datosPedido, token)
       .then((data) => {
         return data;
       })
@@ -43,8 +44,6 @@ export class PagoServiceService {
         console.error('Error realizando el pago', error);
         return Promise.reject(error);
       });
-    
-    return Promise.reject('No se encontró el token');
   }
 
 }
