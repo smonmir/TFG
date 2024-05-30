@@ -28,7 +28,7 @@ export class PagoServiceService {
     }
 
     let datosPedido = {
-      fecha: new Date(),
+      fecha: this.getFechaHorarioActual(),
       precio: this.servicio.getPrecio(),
       usuario_id: this.usuarioService.getUsuario().getId(),
       servicio_id: this.servicio.getId(),
@@ -44,6 +44,14 @@ export class PagoServiceService {
         console.error('Error realizando el pago', error);
         return Promise.reject(error);
       });
+      
+  }
+
+  private getFechaHorarioActual(){
+    const now = new Date();
+    const offset = now.getTimezoneOffset() * 60000;
+    const localISOTime = new Date(now.getTime() - offset).toISOString().slice(0, 19).replace('T', ' ');
+    return localISOTime;
   }
 
 }
