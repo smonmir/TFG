@@ -1,19 +1,18 @@
-import express from 'express'
-import usuarioRoute from './routes/usuariosRoute.js'
-import indexRoute from './routes/indexRoute.js'
+import app from './app.js'
+import {PORT} from './config.js'
 
-const app = express()
+import {sequelizeBd} from '../db/db.js'
 
-const port = 3000
-
-app.use(express.json())
-
-app.use('/api', usuarioRoute)
-app.use(indexRoute)
-
-app.listen(port, () => {
-    console.log('Server is up on port ' + port)
-})
+sequelizeBd.sync()
+.then(() => {
+  console.log('Base de datos sincronizada');
+  app.listen(PORT, () => {
+      console.log('Servidor en ejecución en el puerto ' + PORT);
+  });
+  })
+.catch(error => {
+  console.error('Error al sincronizar la base de datos:', error);
+});
 
 
 

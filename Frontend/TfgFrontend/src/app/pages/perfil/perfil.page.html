@@ -1,0 +1,74 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ionContent">
+  <ion-card class="ionCard">
+    <ion-card-header>
+      <ion-card-title>Cuenta</ion-card-title>
+    </ion-card-header>
+    
+    <ion-card-content>
+      <ion-list *ngIf="usuario">
+
+        <ion-item class="ionItem">
+          <ion-label>
+            <p>Nombre</p>
+            <h1>{{usuario.getNombre()}}</h1>
+          </ion-label>
+          <ion-button class="ionButton" shape="round">
+            Editar
+          </ion-button>
+        </ion-item>
+  
+        <ion-item class="ionItem">
+          <ion-label>
+            <p>Correo</p>
+            <h1>{{usuario.getEmail()}}</h1>
+          </ion-label>
+          <ion-button class="ionButton" shape="round">
+            Editar
+          </ion-button>
+        </ion-item>
+
+
+        <ion-item class="ionItem">
+          <ion-label>
+            <p>Contraseña</p>
+            <h1>********</h1>
+          </ion-label>
+          <ion-button class="ionButton" shape="round">
+            Editar
+          </ion-button>
+        </ion-item>
+  
+        <ion-item class="ionItem">
+          <ion-label>
+            <p>Telefono</p>
+            <h1>{{usuario.getTelefono()}}</h1>
+          </ion-label>
+          <ion-button class="ionButton" shape="round">
+            Editar
+          </ion-button>
+        </ion-item>
+  
+        <ion-item class="ionItem">
+          <ion-label>
+            <p>Direccion</p>
+            <h1>{{usuario.getDireccion()}}</h1>
+          </ion-label>
+          <ion-button class="ionButton" shape="round">
+            Editar
+          </ion-button>
+        </ion-item>
+
+      </ion-list>
+              
+      <ion-item *ngIf="!usuario" class="ionItem">
+        <ion-label>Usuario no existe</ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

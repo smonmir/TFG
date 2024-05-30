@@ -1,0 +1,61 @@
+.ionContent{
+    height: 1000px;
+}
+
+.ionCard{
+    width: 50%;
+    left: 25%;
+    top: 10%
+}
+
+.ionItem{
+    margin-bottom: 20px;
+}
+
+.ionButton{
+    height: 50px;
+    width: 80px;
+}
+
+
+@media (max-width: 768px) {
+    .ionCard{
+        width: 60%;
+        left: 20%;
+        top: 10%;
+    }
+}
+
+@media (max-width: 768px) {
+    .ionCard{
+        width: 70%;
+        left: 15%;
+        top: 10%;
+    }
+}
+
+
+@media (max-width: 520px) {
+    .ionCard{
+        width: 90%;
+        left: 5%;
+        top: 10%;
+    }
+}
+
+
+@media (max-width: 400px) {
+    .ionCard{
+        width: 95%;
+        left: 0px;
+        top: 10%;
+    }
+}
+
+@media (max-width: 321px) {
+    .ionCard{
+        width: 100%;
+        left: -10px;
+        top: 10%;
+    }
+}

@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ servicio.getNombre() }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="servicio">
+    <img [src]="servicio.getImagen()" alt="{{ servicio.getNombre() }}" />
+    <ion-card-header>
+      <ion-card-title>{{ servicio.getNombre() }}</ion-card-title>
+      <ion-card-subtitle>{{ servicio.getPrecio() | currency }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{ servicio.getDescripcion() }}</p>
+      <p><strong>Autor:</strong> {{ servicio.getUsuario().getNombre() }}</p>
+    </ion-card-content>
+  </ion-card>
+  <ion-button expand="full" (click)="irHome()">Volver</ion-button>
+  <ion-button expand="full" (click)="irPago()">Realizar pago</ion-button>
+</ion-content>
+

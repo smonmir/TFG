@@ -7,29 +7,33 @@ import { Observable } from 'rxjs';
 })
 export class HttpClientService {
 
-  private readonly API_URL = 'http://localhost:3000';
+  private readonly API_URL = 'http://localhost:3000/api';
   
   constructor(private http: HttpClient) { }
 
   
-  async login(nombre: string, contrasena: string): Promise<any> {
-    return await this.http.post<any>(`${this.API_URL}/login`, { nombre: nombre, contrasena: contrasena }).toPromise();
+  async login(email: string, contrasena: string, USER_URL: string): Promise<any> {
+    return await this.http.post<any>(`${this.API_URL}/${USER_URL}/login`, { email: email, contrasena: contrasena }).toPromise();
   }
 
-  get<T>(url: string, token: any): Observable<T> {
+  async registro(nombre: string, email: string, contrasena: string, USER_URL: string): Promise<any> {
+    return await this.http.post<any>(`${this.API_URL}/${USER_URL}`, { nombre: nombre, email: email, contrasena: contrasena }).toPromise();
+  }
+
+  async get<T>(url: string, token: any): Promise<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
-    return this.http.get<T>(`${this.API_URL}/${url}`, {headers});
+    return await this.http.get<T>(`${this.API_URL}/${url}`, {headers}).toPromise();
   }
 
-  post<T>(url: string, data: any, token: any): Observable<T> {
+  async post<T>(url: string, data: any, token: any): Promise<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
-    return this.http.post<T>(`${this.API_URL}/${url}`, data, {headers});
+    return await this.http.post<T>(`${this.API_URL}/${url}`, data, {headers}).toPromise();
   }
 
   put<T>(url: string, data: any): Observable<T> {
