@@ -1,13 +1,19 @@
-<ion-header [translucent]="true">
+
+<ion-header>
   <ion-toolbar>
-    <ion-title>pedidos</ion-title>
+    <ion-title>Historial de Pedidos</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">pedidos</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let pedido of pedidos">
+      <ion-label>
+        <h2>Pedido {{ pedido.getId() }}</h2>
+        <p>Total: {{ pedido.getPrecio() | currency }}</p>
+        <p>Fecha: {{ pedido.getFecha() | date }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
+

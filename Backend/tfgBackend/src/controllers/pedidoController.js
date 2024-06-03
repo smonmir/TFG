@@ -2,6 +2,7 @@ import { Pedido } from '../models/pedidoModel.js'
 import { Usuario } from '../models/usuarioModel.js';
 import { Servicio } from '../models/servicioModel.js';
 import { Estado } from '../models/estadoModel.js';
+import {Rol} from '../models/rolModel.js'
 
 export const getPedido = async (req, res) => {
     try {
@@ -9,11 +10,23 @@ export const getPedido = async (req, res) => {
             include: [
                 {
                     model: Usuario,
-                    attributes: ['id', 'nombre', 'email', 'telefono', 'direccion']
+                    attributes: ['id', 'nombre', 'email', 'telefono', 'direccion'],
+                    include: [{
+                      model: Rol,
+                      attributes: ['id', 'nombre', 'descripcion']
+                    }]
                 },
                 {
                     model: Servicio,
-                    attributes: ['id', 'nombre', 'descripcion', 'precio', 'imagen', 'usuario_id']
+                    attributes: ['id', 'nombre', 'descripcion', 'precio', 'imagen'],
+                    include: [{
+                        model: Usuario,
+                        attributes: ['id', 'nombre', 'email', 'telefono', 'direccion'],
+                        include: [{
+                          model: Rol,
+                          attributes: ['id', 'nombre', 'descripcion']
+                        }]
+                    }]
                 },
                 {
                     model: Estado,

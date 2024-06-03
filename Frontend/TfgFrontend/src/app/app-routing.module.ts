@@ -40,7 +40,12 @@ const routes: Routes = [
     path: 'pago',
     loadChildren: () => import('./pages/pago/pago.module').then( m => m.PagoPageModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'pedidos',
+    loadChildren: () => import('./pages/pedidos/pedidos.module').then( m => m.PedidosPageModule)
   }
+
 
 
 

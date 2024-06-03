@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Servicio } from 'src/app/clases/modelos/servicio/servicio';
-import { PagoServiceService } from 'src/app/clases/servicios/pago/pago-service.service';
+import { PedidoService } from 'src/app/clases/servicios/pedido/pedido.service';
 
 @Component({
   selector: 'app-pago',
@@ -20,14 +20,14 @@ export class PagoPage implements OnInit {
     cvv: ''
   };
 
-  constructor(private router: Router, private servicioPago: PagoServiceService) { }
+  constructor(private router: Router, private servicioPedido: PedidoService) { }
 
   ngOnInit() {
-    this.servicio = this.servicioPago.getServicio();
+    this.servicio = this.servicioPedido.getServicio();
   }
 
   async realizarPago() {
-    await this.servicioPago.realizarPago()
+    await this.servicioPedido.realizarPago()
       .then(data => {
         console.log('Pago realizado con éxito', data);
         this.router.navigate(['/tabs/home']);
