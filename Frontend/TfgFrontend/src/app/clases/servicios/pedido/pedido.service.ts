@@ -26,10 +26,11 @@ export class PedidoService {
     return this.servicio = this.servicioService.getServicio();
   }
 
-  async getPedidos(): Promise<any>{
+  async getPedidosUsuario(): Promise<any>{
     try{
       const token = this.localStorage.getToken();
-      const data = await this.httpClient.get<any[]>(this.PEDIDO_URL, token)
+      const usuario = this.usuarioService.getUsuario();
+      const data = await this.httpClient.get<any[]>(`${this.PEDIDO_URL}/usuario/${usuario.getId()}`, token)
       this.pedidos = data.map((pedidoData: any) => {
         const estadoData = pedidoData.estado;
         const usuarioData = pedidoData.usuario;
@@ -79,6 +80,7 @@ export class PedidoService {
     }
 
   }
+
 
   async realizarPago(): Promise<any> {
     const token = this.localStorage.getToken();

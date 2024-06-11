@@ -1,43 +1,49 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <div class="ionToolBar">
-      <ion-title>
-        Servigo
-      </ion-title>
+      <ion-title>Servigo</ion-title>
     </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content style="height: 100%; overflow-y: scroll;">
-<div class="divSearchSelect">
-  <ion-searchbar animated="true" placeholder="Buscar"></ion-searchbar>
-  <ion-list>
-    <ion-item>
-      <ion-select class="ionSelect" aria-label="Fruit" placeholder="Selecciona categoria" [multiple]="true">
-        <ion-select-option value="categoria1">categoria 1</ion-select-option>
-        <ion-select-option value="categoria2">categoria 2</ion-select-option>
-        <ion-select-option value="categoria3">categoria 3</ion-select-option>
-        <ion-select-option value="categoria4">categoria 4</ion-select-option>
-        <ion-select-option value="categoria5">categoria 5</ion-select-option>
-      </ion-select>
-    </ion-item>
-  </ion-list>
-</div>
+  <div class="divSearchSelect">
+    <ion-searchbar 
+      animated="true" 
+      placeholder="Buscar" 
+      (ionInput)="onSearchChange($event)"
+    ></ion-searchbar>
+  </div>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngFor="let servicio of servicios" size="6" size-md="4" size-lg="3">
+        <ion-card (click)="verDescripcionServicio(servicio)">
+          <img alt="Silhouette of mountains" [src]="servicio.getImagen()" />
+          <ion-card-header>
+            <ion-card-title>{{ servicio.getNombre() }}</ion-card-title>
+            <ion-card-subtitle>{{ servicio.getPrecio() | currency }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            {{ servicio.getDescripcion() }}
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 
-<ion-grid>
-  <ion-row>
-    <ion-col *ngFor="let servicio of servicios" size="6" size-md="4" size-lg="3">
-      <ion-card (click)="verDescripcionServicio(servicio)">
-        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-        <ion-card-header>
-          <ion-card-title>{{ servicio.getNombre() }}</ion-card-title>
-          <ion-card-subtitle>{{ servicio.getPrecio() | currency }}</ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
-          {{ servicio.getDescripcion() }}
-        </ion-card-content>
-      </ion-card>
-    </ion-col>
-  </ion-row>
-</ion-grid>
+  <ion-footer>
+    <ion-toolbar>
+      <ion-row class="ion-justify-content-between">
+        <ion-col class="ion-text-center">
+          <ion-button (click)="cargarPaginaAnterior()" [disabled]="currentPage === 1">Anterior</ion-button>
+        </ion-col>
+        <ion-col class="ion-text-center">
+          <ion-button (click)="cargarPaginaSiguiente()" [disabled]="currentPage === totalPages">Siguiente</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-toolbar>
+  </ion-footer>
+</ion-content>
+

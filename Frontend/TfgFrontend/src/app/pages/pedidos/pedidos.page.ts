@@ -21,7 +21,7 @@ export class PedidosPage implements OnInit {
 
 
   async cargarPedidos() {
-    this.pedidos = await this.pedidoService.getPedidos();
+    this.pedidos = await this.pedidoService.getPedidosUsuario();
   }
 
 }

@@ -64,7 +64,7 @@ export const createUsuario = async (req, res) => {
             if (!rol) {
                 return res.status(400).json({ mensaje: 'El rol especificado no existe' });
             }
-
+            
             const hashedPassword = await bcrypt.hash(contrasena, 10);
 
             console.log("hashedPassword: "+hashedPassword)
@@ -77,7 +77,7 @@ export const createUsuario = async (req, res) => {
                 direccion: direccion == null ? null : direccion,
                 rol_id: rolId
             });
-
+            
             res.status(201).json(nuevoUsuario);
         }
     } catch (error) {

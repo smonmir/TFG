@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Gestión de Servicios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="card">
+    <ion-card-header>
+      <ion-card-title>{{ estaEditando ? 'Editar Servicio' : 'Añadir Servicio' }}</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <form [formGroup]="formularioServicio" (submit)="anadirActualizrServicio()">
+        <ion-item>
+          <ion-label position="floating">Nombre</ion-label>
+          <ion-input type="text" formControlName="nombre"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Descripción</ion-label>
+          <ion-input type="text" formControlName="descripcion"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Precio</ion-label>
+          <ion-input type="number" formControlName="precio"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Imagen</ion-label>
+          <img [src]="imagenBase64" *ngIf="servicio">
+          <ion-input type="file" formControlName="imagen" (change)="onFileChange($event)"></ion-input>
+        </ion-item>
+        <ion-button type="submit">{{ estaEditando ? 'Actualizar' : 'Añadir' }}</ion-button>
+        <ion-button type="button" (click)="resetForm()">Cancelar</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list>
+    <ion-item *ngFor="let servicio of servicios">
+      <ion-label>
+        <h2>{{ servicio.getNombre() }}</h2>
+        <p>{{ servicio.getDescripcion() }}</p>
+        <p>Precio: {{ servicio.getPrecio() | currency }}</p>
+        <img [src]="servicio.getImagen()" *ngIf="servicio.getImagen()">
+      </ion-label>
+      <ion-button (click)="editServicio(servicio)">Editar</ion-button>
+      <ion-button color="danger" (click)="deleteServicio(servicio)">Eliminar</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>
+

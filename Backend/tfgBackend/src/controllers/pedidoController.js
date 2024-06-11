@@ -77,6 +77,55 @@ export const getPedidoById = async (req, res) => {
     }
 };
 
+export const getPedidosUsuario = async (req, res) => {
+    try {
+      const idUsuario = req.params.usuarioId;
+      const pedidos = await Pedido.findAll({
+        where: { usuario_id: idUsuario },
+        include: [
+          {
+            model: Usuario,
+            attributes: ['id', 'nombre', 'email', 'telefono', 'direccion'],
+            include: [{
+              model: Rol,
+              attributes: ['id', 'nombre', 'descripcion']
+            }]
+          },
+          {
+            model: Servicio,
+            attributes: ['id', 'nombre', 'descripcion', 'precio', 'imagen'],
+            include: [{
+              model: Usuario,
+              attributes: ['id', 'nombre', 'email', 'telefono', 'direccion'],
+              include: [{
+                model: Rol,
+                attributes: ['id', 'nombre', 'descripcion']
+              }]
+            }]
+          },
+          {
+            model: Estado,
+            attributes: ['id', 'nombre', 'descripcion']
+          }
+        ]
+      });
+
+      if (!pedidos.length) {
+        return res.status(404).json({
+          message: `No se encontraron pedidos para el usuario con ID ${idUsuario}`
+        });
+      }
+  
+      res.json(pedidos);
+    } catch (error) {
+      console.error('Error al obtener pedidos de usuario:', error);
+      return res.status(500).json({
+        message: 'Algo fue mal'
+      });
+    }
+  };
+  
+
 export const createPedido = async (req, res) => {
     const { fecha, precio, usuario_id, servicio_id, estado_id } = req.body;
 

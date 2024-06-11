@@ -8,7 +8,7 @@ export class Usuario {
     private email!: string;
     private telefono!: string;
     private direccion!: string;
-    private rol: Rol | null = null;
+    private rol: Rol;
 
     constructor(id: number, nombre: string, email:string, contrasena: string, telefono: string, direccion: string, rol: Rol){
         this.id = id;
@@ -46,7 +46,7 @@ export class Usuario {
         return this.direccion;
     }
 
-    public getRol(): Rol | null{
+    public getRol(): Rol{
         return this.rol;
     }
 

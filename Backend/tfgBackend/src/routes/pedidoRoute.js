@@ -1,5 +1,5 @@
 import {Router} from 'express'
-import {getPedido, getPedidoById, createPedido, updatePedido, deletePedido} from '../controllers/pedidoController.js'
+import {getPedido, getPedidoById, getPedidosUsuario, createPedido, updatePedido, deletePedido} from '../controllers/pedidoController.js'
 import {authMiddleware} from '../middleware/authMiddleware.js'
 
 const router = Router();
@@ -7,6 +7,8 @@ const router = Router();
 router.get('/pedido', getPedido)
 
 router.get('/pedido/:id', getPedidoById)
+
+router.get('/pedido/usuario/:usuarioId', getPedidosUsuario);
 
 router.post('/pedido', createPedido)
 

@@ -1,6 +1,7 @@
 import { Servicio } from '../models/servicioModel.js'
 import { Usuario } from '../models/usuarioModel.js'
 import { Rol } from '../models/rolModel.js';
+import { Sequelize } from 'sequelize';
 import { Valoracion } from '../models/valoracionModel.js';
 import { ServicioCategoria } from '../models/servicioCategoriaModel.js';
 import { Pedido } from '../models/pedidoModel.js';
@@ -59,22 +60,100 @@ export const getServicioById = async (req, res) => {
     }
 };
 
+export const getServiciosPaginados = async (req, res) => {
+    try {
+        const { page = 1, limit = 6, search = '' } = req.query;
+
+        const offset = (page - 1) * limit;
+
+        const whereCondition = {
+            [Sequelize.Op.or]: [
+                { nombre: { [Sequelize.Op.like]: `%${search}%` } },
+                { descripcion: { [Sequelize.Op.like]: `%${search}%` } }
+            ]
+        };
+
+        console.log(offset)
+
+        const { count, rows } = await Servicio.findAndCountAll({
+            where: whereCondition,
+            include: [
+              {
+                model: Usuario,
+                attributes: ['id', 'nombre', 'email', 'telefono', 'direccion'],
+                include: [{
+                  model: Rol,
+                  attributes: ['id', 'nombre', 'descripcion']
+                }]
+              }
+            ],
+            offset: offset,
+            limit: parseInt(limit),
+        });
+
+        const totalPages = Math.ceil(count / limit);
+        res.json({ servicios: rows, totalPages: totalPages, currentPage: parseInt(page) });
+        
+    } catch (error) {
+        console.error('Error al obtener servicios paginados:', error);
+        return res.status(500).json({
+            message: 'Algo fue mal',
+        });
+    }
+};
+
+
+export const getServiciosUsuario = async (req, res) => {
+    try {
+        const idUsuario = req.params.usuarioId;
+        const servicios = await Servicio.findAll({
+            where: { usuario_id: idUsuario },
+            include: [
+                {
+                model: Usuario,
+                attributes: ['id', 'nombre', 'email', 'telefono', 'direccion'],
+                include: [{
+                    model: Rol,
+                    attributes: ['id', 'nombre', 'descripcion']
+                }]
+                }
+            ]
+        });
+
+        if (!servicios.length) {
+            return res.status(404).json({
+                message: `No se encontraron servicios para el usuario con ID ${idUsuario}`
+            });
+        }
+    
+        res.json(servicios);
+    } catch (error) {
+        console.error('Error al obtener servicios del usuario: ', error);
+        return res.status(500).json({
+            message: 'Algo fue mal',
+        });
+    }
+};
+
 export const createServicio = async (req, res) => {
     const { nombre, descripcion, precio, imagen, usuario_id } = req.body;
-
+    
     try {
         const usuario = await Usuario.findByPk(usuario_id);
         if (!usuario) {
-            return res.status(400).json({ mensaje: "El servicio especificado no existe" });
+          return res.status(400).json({ message: 'El usuario especificado no existe' });
         }
-
+    
         const nuevoServicio = await Servicio.create({
-            nombre,
-            descripcion,
-            precio,
-            imagen,
-            usuario_id
+          nombre,
+          descripcion,
+          precio,
+          imagen,
+          usuario_id
         });
+    
+
+        console.log(nuevoServicio)
 
         res.status(201).json(nuevoServicio);
     } catch (error) {
@@ -83,6 +162,7 @@ export const createServicio = async (req, res) => {
             message: 'Algo fue mal' 
         });
     }
+    
 };
   
 
@@ -94,13 +174,15 @@ export const updateServicio = async (req, res) => {
     try {
         const servicio = await Servicio.findByPk(id); 
 
+        console.log(req.body)
+
         if (!servicio) {
             return res.status(404).json({ message: 'Servicio no encontrado' });
         }
 
         const usuario = await Usuario.findByPk(usuario_id);
-        if (!rol) {
-            return res.status(400).json({ mensaje: "El rol especificado no existe" });
+        if (!usuario) {
+            return res.status(400).json({ mensaje: "El usuario especificado no existe" });
         }
 
         const datosActualizados = {};

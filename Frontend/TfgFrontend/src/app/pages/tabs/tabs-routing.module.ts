@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { TabsPage } from './tabs.page';
 import { AuthGuard } from 'src/app/guard/auth/auth.guard';
+import { RoleGuard } from 'src/app/guard/role/role.guard';
 
 const routes: Routes = [
   {
@@ -15,7 +16,15 @@ const routes: Routes = [
       },
       {
         path: 'pedidos',
-        loadChildren: () => import('../pedidos/pedidos.module').then( m => m.PedidosPageModule)
+        loadChildren: () => import('../pedidos/pedidos.module').then( m => m.PedidosPageModule),
+        canActivate: [AuthGuard, RoleGuard],
+        data: { role: 'comprador' } //Solo accesible para compradores
+      },
+      {
+        path: 'mis-servicios',
+        loadChildren: () => import('../mis-servicios/mis-servicios.module').then( m => m.MisServiciosPageModule),
+        canActivate: [AuthGuard, RoleGuard],
+        data: { role: 'vendedor' } //Solo accesible para vendedores
       },
       {
         path: 'perfil',

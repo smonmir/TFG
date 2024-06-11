@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guard/auth/auth.guard';
+import { RoleGuard } from './guard/role/role.guard';
 
 const routes: Routes = [
   {
@@ -8,51 +9,18 @@ const routes: Routes = [
     redirectTo: 'tabs/home',
     pathMatch: 'full'
   },
-  /*
-  {
-    path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
-  },
-  {
-    path: 'registro',
-    loadChildren: () => import('./pages/registro/registro.module').then( m => m.RegistroPageModule)
-  },
-  /*
-  {
-    path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
-  },
-  {
-    path: 'perfil',
-    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule),
-    canActivate: [AuthGuard]
-  },
-  */
   {
     path: 'tabs',
     loadChildren: () => import('./pages/tabs/tabs.module').then( m => m.TabsPageModule)
   },
   {
-    path: 'detalle-servicio',
-    loadChildren: () => import('./pages/detalle-servicio/detalle-servicio.module').then( m => m.DetalleServicioPageModule)
-  },
-  {
     path: 'pago',
     loadChildren: () => import('./pages/pago/pago.module').then( m => m.PagoPageModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'pedidos',
-    loadChildren: () => import('./pages/pedidos/pedidos.module').then( m => m.PedidosPageModule)
+    canActivate: [AuthGuard, RoleGuard],
+    data: { role: 'comprador' } //Solo accesible para compradores
   }
 
-
-
-
-
-
-
-
+  
 ];
 
 @NgModule({
