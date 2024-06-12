@@ -19,6 +19,10 @@ export class PedidosPage implements OnInit {
     this.cargarPedidos();
   }
 
+  ionViewWillEnter() {
+    this.cargarPedidos();
+  }
+
 
   async cargarPedidos() {
     this.pedidos = await this.pedidoService.getPedidosUsuario();

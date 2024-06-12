@@ -12,7 +12,7 @@ export const getServicio = async (req, res) => {
             include: [
               {
                 model: Usuario,
-                attributes: ['id', 'nombre', 'email', 'telefono', 'direccion'],
+                attributes: ['id', 'nombre', 'email', 'telefono'],
                 include: [{
                   model: Rol,
                   attributes: ['id', 'nombre', 'descripcion']
@@ -38,7 +38,7 @@ export const getServicioById = async (req, res) => {
             include: [
                 {
                   model: Usuario,
-                  attributes: ['id', 'nombre', 'email', 'telefono', 'direccion'],
+                  attributes: ['id', 'nombre', 'email', 'telefono'],
                   include: [{
                     model: Rol,
                     attributes: ['id', 'nombre', 'descripcion']
@@ -62,7 +62,7 @@ export const getServicioById = async (req, res) => {
 
 export const getServiciosPaginados = async (req, res) => {
     try {
-        const { page = 1, limit = 6, search = '' } = req.query;
+        const { page = 1, limit = 8, search = '' } = req.query;
 
         const offset = (page - 1) * limit;
 
@@ -80,7 +80,7 @@ export const getServiciosPaginados = async (req, res) => {
             include: [
               {
                 model: Usuario,
-                attributes: ['id', 'nombre', 'email', 'telefono', 'direccion'],
+                attributes: ['id', 'nombre', 'email', 'telefono'],
                 include: [{
                   model: Rol,
                   attributes: ['id', 'nombre', 'descripcion']
@@ -111,7 +111,7 @@ export const getServiciosUsuario = async (req, res) => {
             include: [
                 {
                 model: Usuario,
-                attributes: ['id', 'nombre', 'email', 'telefono', 'direccion'],
+                attributes: ['id', 'nombre', 'email', 'telefono'],
                 include: [{
                     model: Rol,
                     attributes: ['id', 'nombre', 'descripcion']

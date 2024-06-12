@@ -51,7 +51,6 @@ export class PedidoService {
           usuarioData.email,
           usuarioData.contrasena,
           usuarioData.telefono,
-          usuarioData.direccion,
           rol
         );
 
@@ -68,6 +67,7 @@ export class PedidoService {
           pedidoData.id,
           pedidoData.precio,
           pedidoData.fecha,
+          pedidoData.direccion,
           usuario,
           servicio,
           estado
@@ -82,30 +82,28 @@ export class PedidoService {
   }
 
 
-  async realizarPago(): Promise<any> {
+  async realizarPago(direccion: string): Promise<any> {
     const token = this.localStorage.getToken();
     if (!token) {
       return Promise.reject('No se encontró el token');
     }
 
-    let datosPedido = {
+    const datosPedido = {
       fecha: this.getFechaHorarioActual(),
       precio: this.servicio.getPrecio(),
+      direccion: direccion,
       usuario_id: this.usuarioService.getUsuario().getId(),
       servicio_id: this.servicio.getId(),
       estado_id: 8
-    }
+    };
 
-    
-    await this.httpClient.post<any[]>(this.PEDIDO_URL, datosPedido, token)
-      .then((data) => {
-        return data;
-      })
-      .catch(error => {
-        console.error('Error realizando el pago', error);
-        return Promise.reject(error);
-      });
-      
+    try {
+      const data = await this.httpClient.post<any[]>(this.PEDIDO_URL, datosPedido, token);
+      return data;
+    } catch (error) {
+      console.error('Error realizando el pago', error);
+      return Promise.reject(error);
+    }
   }
 
   private getFechaHorarioActual(){

@@ -27,6 +27,7 @@
         <ion-item>
           <ion-label position="floating">Imagen</ion-label>
           <img [src]="imagenBase64" *ngIf="servicio">
+          <img [src]="imagenBase64" *ngIf="!servicio">
           <ion-input type="file" formControlName="imagen" (change)="onFileChange($event)"></ion-input>
         </ion-item>
         <ion-button type="submit">{{ estaEditando ? 'Actualizar' : 'Añadir' }}</ion-button>

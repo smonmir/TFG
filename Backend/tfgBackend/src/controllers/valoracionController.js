@@ -9,10 +9,10 @@ export const getValoracion = async (req, res) => {
             include: [
                 {
                     model: Usuario,
-                    attributes: ['id', 'nombre', 'email', 'telefono', 'direccion'],
+                    attributes: ['id', 'nombre', 'email', 'telefono'],
                     include: [{
-                        model: Rol, // Incluir el modelo 'Rol'
-                        attributes: ['id', 'nombre', 'descripcion'] // Especificar atributos de 'Rol'
+                        model: Rol,
+                        attributes: ['id', 'nombre', 'descripcion']
                     }]
                 },
                 {
@@ -20,10 +20,10 @@ export const getValoracion = async (req, res) => {
                     attributes: ['id', 'nombre', 'descripcion', 'precio', 'imagen'],
                     include: [{
                         model: Usuario,
-                        attributes: ['id', 'nombre', 'email', 'telefono', 'direccion'],
+                        attributes: ['id', 'nombre', 'email', 'telefono'],
                         include: [{
-                            model: Rol, // Incluir el modelo 'Rol'
-                            attributes: ['id', 'nombre', 'descripcion'] // Especificar atributos de 'Rol'
+                            model: Rol,
+                            attributes: ['id', 'nombre', 'descripcion'] 
                         }]
                     }]
                 }
@@ -46,10 +46,10 @@ export const getValoracionById = async (req, res) => {
             include: [
                 {
                     model: Usuario,
-                    attributes: ['id', 'nombre', 'email', 'telefono', 'direccion'],
+                    attributes: ['id', 'nombre', 'email', 'telefono'],
                     include: [{
-                        model: Rol, // Incluir el modelo 'Rol'
-                        attributes: ['id', 'nombre', 'descripcion'] // Especificar atributos de 'Rol'
+                        model: Rol,
+                        attributes: ['id', 'nombre', 'descripcion'] 
                     }]
                 },
                 {
@@ -57,7 +57,7 @@ export const getValoracionById = async (req, res) => {
                     attributes: ['id', 'nombre', 'descripcion', 'precio', 'imagen'],
                     include: [{
                         model: Usuario,
-                        attributes: ['id', 'nombre', 'email', 'telefono', 'direccion'],
+                        attributes: ['id', 'nombre', 'email', 'telefono'],
                         include: [{
                             model: Rol, // Incluir el modelo 'Rol'
                             attributes: ['id', 'nombre', 'descripcion'] // Especificar atributos de 'Rol'

@@ -13,17 +13,19 @@ export class RoleGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
-    const expectedRole = next.data['role'];
-    const currentRole = this.usuarioService.getUsuario().getRol().getNombre();
-
-    if (currentRole === expectedRole) {
-      return true;
-    } else {
-      this.router.navigate(['/tabs/home']);
-      return false;
-    }
-
+    
+    return new Promise(async (resolve) => {
+      const expectedRole = next.data['role'];
+      await this.usuarioService.checkToken();
+      const usuario = this.usuarioService.getUsuario();
+      
+      if (usuario && usuario.getRol().getNombre() === expectedRole) {
+        resolve(true);
+      } else {
+        this.router.navigate(['/tabs/login']);
+        resolve(false);
+      }
+    });
   }
   
 }

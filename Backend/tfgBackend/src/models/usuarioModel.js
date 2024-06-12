@@ -26,9 +26,6 @@ export const Usuario = sequelizeBd.define("usuario", {
         telefono: {
             type: Sequelize.STRING
         },
-        direccion: {
-            type: Sequelize.STRING
-        },
         rol_id: {
             type: Sequelize.INTEGER,
             allowNull: false,

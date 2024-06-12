@@ -19,6 +19,11 @@ export class HttpClientService {
     return await this.http.post<any>(`${this.API_URL}/${USER_URL}`, { nombre: nombre, email: email, contrasena: contrasena, rol_id: rol_id }).toPromise();
   }
 
+  async verifyToken(token: string, USER_URL: string): Promise<any> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return await this.http.get<any>(`${this.API_URL}/${USER_URL}/me`, { headers }).toPromise();
+  }
+
   /*
   async get<T>(url: string, token: any): Promise<any> {
     const headers = new HttpHeaders({

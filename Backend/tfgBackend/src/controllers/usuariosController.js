@@ -39,9 +39,25 @@ export const login = async (req, res) => {
     }
 };
 
+export const getMe = async (req, res) => {
+    try {
+        const user = await Usuario.findByPk(req.user.id, {
+            include: [Rol]
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        res.json({ user });
+    } catch (error) {
+        console.error('Error al obtener la información del usuario:', error);
+        return res.status(500).json({ message: 'Algo fue mal' });
+    }
+};
 
 export const createUsuario = async (req, res) => {
-    const { nombre, email, contrasena, telefono = null, direccion = null, rol_id } = req.body;
+    const { nombre, email, contrasena, telefono = null, rol_id } = req.body;
 
     try {
         const usuarioExistenteEmail = await Usuario.findOne({ where: { email } });
@@ -74,7 +90,6 @@ export const createUsuario = async (req, res) => {
                 email,
                 contrasena: hashedPassword,
                 telefono: telefono == null ? null : telefono,
-                direccion: direccion == null ? null : direccion,
                 rol_id: rolId
             });
             
@@ -136,7 +151,7 @@ export const getUsuarioById = async (req, res) => {
 
 export const updateUsuario = async (req, res) => {
     const { id } = req.params;
-    const { nombre, email, contrasena, telefono, direccion, rol_id } = req.body;
+    const { nombre, email, contrasena, telefono, rol_id } = req.body;
 
     try {
         const usuario = await Usuario.findByPk(id); 
@@ -159,7 +174,6 @@ export const updateUsuario = async (req, res) => {
         datosActualizados.email = email || usuario.email;
         datosActualizados.contrasena = contrasena || usuario.contrasena;
         datosActualizados.telefono = telefono || usuario.telefono;
-        datosActualizados.direccion = direccion || usuario.direccion;
         datosActualizados.rol_id = rol_id || usuario.rol_id;
 
         await usuario.update(datosActualizados);

@@ -12,6 +12,7 @@
         <h2>Pedido {{ pedido.getId() }}</h2>
         <p>Total: {{ pedido.getPrecio() | currency }}</p>
         <p>Fecha: {{ pedido.getFecha() | date }}</p>
+        <p>Direccion: {{ pedido.getDireccion() }}</p>
       </ion-label>
     </ion-item>
   </ion-list>

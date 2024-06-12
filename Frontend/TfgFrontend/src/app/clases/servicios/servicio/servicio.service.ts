@@ -19,7 +19,7 @@ export class ServicioService {
 
   constructor(private httpClient: HttpClientService, private localStorage: LocalStorageService) { }
 
-  async getServiciosPaginados(page: number = 1, limit: number = 6, search: string = ''): Promise<any> {
+  async getServiciosPaginados(page: number = 1, limit: number = 8, search: string = ''): Promise<any> {
     try {
       const params = { page: page.toString(), limit: limit.toString(), search: search };
       const data = await this.httpClient.get<any[]>(`${this.SERVICIO_URL}/paginados`, "", params);
@@ -35,7 +35,6 @@ export class ServicioService {
           usuarioData.email,
           usuarioData.contrasena,
           usuarioData.telefono,
-          usuarioData.direccion,
           rol
         );
 
@@ -75,7 +74,6 @@ export class ServicioService {
           usuarioData.email,
           usuarioData.contrasena,
           usuarioData.telefono,
-          usuarioData.direccion,
           rol
         );
 
@@ -119,7 +117,6 @@ export class ServicioService {
         usuarioData.email,
         usuarioData.contrasena,
         usuarioData.telefono,
-        usuarioData.direccion,
         rol
       );
 

@@ -1,6 +1,6 @@
 import {config} from 'dotenv'
 
-config() // se cargan las variables de entorno del archivo .env en el objeto process.env
+config() //se cargan las variables de entorno del archivo .env en el objeto process.env
 
 export const PORT = process.env.PORT || 3000
 

@@ -17,6 +17,9 @@ export const Pedido = sequelizeBd.define('pedido', {
           type: Sequelize.DECIMAL(3, 2),
           allowNull: false
         },
+        direccion: {
+          type: Sequelize.STRING
+        },
         usuario_id: {
           type: Sequelize.INTEGER,
           allowNull: false,

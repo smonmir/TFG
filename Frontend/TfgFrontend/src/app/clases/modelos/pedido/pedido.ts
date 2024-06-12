@@ -6,14 +6,16 @@ export class Pedido {
     id: number;
     precio: number;
     fecha: Date;
+    direccion: string;
     usuario: Usuario;
     servicio: Servicio;
     estado: Estado;
   
-    constructor(id: number,precio: number,fecha: Date,usuario: Usuario,servicio: Servicio,estado: Estado) {
+    constructor(id: number,precio: number,fecha: Date, direccion: string, usuario: Usuario,servicio: Servicio,estado: Estado) {
       this.id = id;
       this.precio = precio;
       this.fecha = fecha;
+      this.direccion = direccion;
       this.usuario = usuario;
       this.servicio = servicio;
       this.estado = estado;
@@ -30,6 +32,10 @@ export class Pedido {
   
     getFecha(): Date {
       return this.fecha;
+    }
+
+    getDireccion(): string {
+      return this.direccion;
     }
   
     getUsuario(): Usuario {
@@ -55,6 +61,10 @@ export class Pedido {
   
     setFecha(fecha: Date): void {
       this.fecha = fecha;
+    }
+
+    setDireccion(direccion: string): void {
+      this.direccion = direccion;
     }
   
     setUsuario(usuario: Usuario): void {

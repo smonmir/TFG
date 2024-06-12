@@ -22,9 +22,14 @@ export class HomePage {
     this.cargarServicios();
   }
 
+  ionViewWillEnter() {
+    this.cargarServicios();
+  }
+
+
   async cargarServicios() {
     try {
-      const data = await this.servicioService.getServiciosPaginados(this.currentPage, 6, this.searchQuery);
+      const data = await this.servicioService.getServiciosPaginados(this.currentPage, 8, this.searchQuery);
       this.servicios = data.servicios;
       this.totalPages = data.totalPages;
       this.currentPage = data.currentPage;

@@ -18,7 +18,7 @@
             <p>Nombre</p>
             <h1>{{usuario.getNombre()}}</h1>
           </ion-label>
-          <ion-button class="ionButton" shape="round">
+          <ion-button class="ionButton" shape="round" (click)="editarCampo('nombre', usuario.getNombre())">
             Editar
           </ion-button>
         </ion-item>
@@ -28,38 +28,27 @@
             <p>Correo</p>
             <h1>{{usuario.getEmail()}}</h1>
           </ion-label>
-          <ion-button class="ionButton" shape="round">
+          <ion-button class="ionButton" shape="round" (click)="editarCampo('correo', usuario.getEmail())">
             Editar
           </ion-button>
         </ion-item>
-
 
         <ion-item class="ionItem">
           <ion-label>
             <p>Contraseña</p>
             <h1>********</h1>
           </ion-label>
-          <ion-button class="ionButton" shape="round">
+          <ion-button class="ionButton" shape="round" (click)="editarCampo('contraseña', '')">
             Editar
           </ion-button>
         </ion-item>
   
         <ion-item class="ionItem">
           <ion-label>
-            <p>Telefono</p>
+            <p>Teléfono</p>
             <h1>{{usuario.getTelefono()}}</h1>
           </ion-label>
-          <ion-button class="ionButton" shape="round">
-            Editar
-          </ion-button>
-        </ion-item>
-  
-        <ion-item class="ionItem">
-          <ion-label>
-            <p>Direccion</p>
-            <h1>{{usuario.getDireccion()}}</h1>
-          </ion-label>
-          <ion-button class="ionButton" shape="round">
+          <ion-button class="ionButton" shape="round" (click)="editarCampo('telefono', usuario.getTelefono())">
             Editar
           </ion-button>
         </ion-item>
@@ -69,6 +58,10 @@
       <ion-item *ngIf="!usuario" class="ionItem">
         <ion-label>Usuario no existe</ion-label>
       </ion-item>
+
+      <ion-button shape="round" (click)="logout()">
+        Cerrar Sesión
+      </ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>

@@ -7,16 +7,14 @@ export class Usuario {
     private contrasena!: string;
     private email!: string;
     private telefono!: string;
-    private direccion!: string;
     private rol: Rol;
 
-    constructor(id: number, nombre: string, email:string, contrasena: string, telefono: string, direccion: string, rol: Rol){
+    constructor(id: number, nombre: string, email:string, contrasena: string, telefono: string, rol: Rol){
         this.id = id;
         this.nombre = nombre;
         this.contrasena = contrasena;
         this.email = email;
-        this.direccion = telefono;
-        this.telefono = direccion;
+        this.telefono = telefono;
         this.rol = rol;
     }
 
@@ -42,10 +40,6 @@ export class Usuario {
         return this.telefono;
     }
 
-    public getDireccion(): string {
-        return this.direccion;
-    }
-
     public getRol(): Rol{
         return this.rol;
     }
@@ -66,11 +60,7 @@ export class Usuario {
     public setTelefono(telefono: string): void {
         this.telefono = telefono;
     }
-
-    public setDireccion(direccion: string): void {
-        this.direccion = direccion;
-    }
-
+    
     public setRol(rol: Rol): void {
         this.rol = rol;
     }

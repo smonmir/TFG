@@ -17,7 +17,7 @@ export class TabsPage implements OnInit {
   }
 
   isCliente(): boolean {
-    const usuario =  this.usuarioService.getUsuario();
+    const usuario = this.usuarioService.getUsuario();
     if(usuario){
       return this.usuarioService.getUsuario().getRol().getNombre() == 'comprador';
     }
@@ -25,7 +25,7 @@ export class TabsPage implements OnInit {
   }
 
   isVendedor(): boolean {
-    const usuario =  this.usuarioService.getUsuario();
+    const usuario = this.usuarioService.getUsuario();
     if(usuario){
       return this.usuarioService.getUsuario().getRol()?.getNombre() == 'vendedor';
     }

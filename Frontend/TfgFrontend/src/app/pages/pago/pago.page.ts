@@ -12,9 +12,8 @@ export class PagoPage implements OnInit {
 
   servicio!: Servicio;
 
-  paymentDetails = {
-    serviceId: '',
-    amount: 0,
+  detallePago = {
+    direccion: '',
     cardNumber: '',
     expirationDate: '',
     cvv: ''
@@ -27,14 +26,18 @@ export class PagoPage implements OnInit {
   }
 
   async realizarPago() {
-    await this.servicioPedido.realizarPago()
-      .then(data => {
-        console.log('Pago realizado con éxito', data);
-        this.router.navigate(['/tabs/home']);
-      })
-      .catch(error => {
-        console.error('Error realizando el pago', error);
-      });
+    if (!this.detallePago.direccion || !this.detallePago.cardNumber || !this.detallePago.expirationDate || !this.detallePago.cvv) {
+      console.error('Todos los campos son obligatorios');
+      return;
+    }
+
+    try {
+      await this.servicioPedido.realizarPago(this.detallePago.direccion);
+      console.log('Pago realizado con éxito');
+      this.router.navigate(['/tabs/home']);
+    } catch (error) {
+      console.error('Error realizando el pago', error);
+    }
   }
 
 }

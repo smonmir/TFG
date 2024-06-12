@@ -3,6 +3,7 @@ import { Usuario } from '../models/usuarioModel.js';
 import { Servicio } from '../models/servicioModel.js';
 import { Estado } from '../models/estadoModel.js';
 import {Rol} from '../models/rolModel.js'
+import { sendEmail } from '../servicios/emailServicio.js';
 
 export const getPedido = async (req, res) => {
     try {
@@ -10,7 +11,7 @@ export const getPedido = async (req, res) => {
             include: [
                 {
                     model: Usuario,
-                    attributes: ['id', 'nombre', 'email', 'telefono', 'direccion'],
+                    attributes: ['id', 'nombre', 'email', 'telefono'],
                     include: [{
                       model: Rol,
                       attributes: ['id', 'nombre', 'descripcion']
@@ -21,7 +22,7 @@ export const getPedido = async (req, res) => {
                     attributes: ['id', 'nombre', 'descripcion', 'precio', 'imagen'],
                     include: [{
                         model: Usuario,
-                        attributes: ['id', 'nombre', 'email', 'telefono', 'direccion'],
+                        attributes: ['id', 'nombre', 'email', 'telefono'],
                         include: [{
                           model: Rol,
                           attributes: ['id', 'nombre', 'descripcion']
@@ -51,7 +52,7 @@ export const getPedidoById = async (req, res) => {
             include: [
                 {
                     model: Usuario,
-                    attributes: ['id', 'nombre', 'email', 'telefono', 'direccion']
+                    attributes: ['id', 'nombre', 'email', 'telefono']
                 },
                 {
                     model: Servicio,
@@ -85,7 +86,7 @@ export const getPedidosUsuario = async (req, res) => {
         include: [
           {
             model: Usuario,
-            attributes: ['id', 'nombre', 'email', 'telefono', 'direccion'],
+            attributes: ['id', 'nombre', 'email', 'telefono'],
             include: [{
               model: Rol,
               attributes: ['id', 'nombre', 'descripcion']
@@ -96,7 +97,7 @@ export const getPedidosUsuario = async (req, res) => {
             attributes: ['id', 'nombre', 'descripcion', 'precio', 'imagen'],
             include: [{
               model: Usuario,
-              attributes: ['id', 'nombre', 'email', 'telefono', 'direccion'],
+              attributes: ['id', 'nombre', 'email', 'telefono'],
               include: [{
                 model: Rol,
                 attributes: ['id', 'nombre', 'descripcion']
@@ -127,11 +128,11 @@ export const getPedidosUsuario = async (req, res) => {
   
 
 export const createPedido = async (req, res) => {
-    const { fecha, precio, usuario_id, servicio_id, estado_id } = req.body;
+    const { fecha, precio, direccion, usuario_id, servicio_id, estado_id } = req.body;
 
     try {
-        const usuario = await Usuario.findByPk(usuario_id);
-        if (!usuario) {
+        const comprador = await Usuario.findByPk(usuario_id);
+        if (!comprador) {
             return res.status(400).json({ mensaje: "El usuario especificado no existe" });
         }
 
@@ -148,14 +149,35 @@ export const createPedido = async (req, res) => {
         const nuevoPedido = await Pedido.create({
             fecha,
             precio,
+            direccion,
             usuario_id,
             servicio_id,
             estado_id
         });
 
+        const vendedor = await Usuario.findByPk(servicio.usuario_id);
+        if (!vendedor) {
+            return res.status(400).json({ mensaje: "El vendedor del servicio especificado no existe" });
+        }
+
+        /*
+        await sendEmail(
+            comprador.email,
+            'Confirmación de pedido',
+            `Has comprado el servicio "${servicio.nombre}" por ${precio} euros.`
+        );
+        
+        await sendEmail(
+            vendedor.email,
+            'Nuevo pedido realizado',
+            `El usuario ${comprador.nombre} ha comprado tu servicio "${servicio.nombre}".`
+        );
+        */
+        
+
         res.status(201).json(nuevoPedido);
     } catch (error) {
-        console.error('Error al crear usuario: ', error);
+        console.error('Error al crear pedido: ', error);
         return res.status(500).json({
             message: 'Algo fue mal' 
         });
@@ -164,7 +186,7 @@ export const createPedido = async (req, res) => {
 
 export const updatePedido = async (req, res) => {
     const { id } = req.params;
-    const { fecha, precio, usuario_id, servicio_id, estado_id } = req.body;
+    const { fecha, precio, direccion, usuario_id, servicio_id, estado_id } = req.body;
 
     try {
         const pedido = await Pedido.findByPk(id); 
@@ -192,6 +214,7 @@ export const updatePedido = async (req, res) => {
 
         datosActualizados.fecha = fecha || pedido.fecha;
         datosActualizados.precio = precio || pedido.precio;
+        datosActualizados.direccion = direccion || pedido.direccion;
         datosActualizados.usuario_id = usuario_id || pedido.usuario_id;
         datosActualizados.servicio_id = servicio_id || pedido.servicio_id;
         datosActualizados.estado_id = estado_id || pedido.estado_id;

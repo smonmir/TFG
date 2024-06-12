@@ -20,7 +20,7 @@ export class DetalleServicioPage implements OnInit {
 
 
   irPago(){
-    this.router.navigate(['/pago']);
+    this.router.navigate(['/tabs/pago']);
   }
 
   irHome(){

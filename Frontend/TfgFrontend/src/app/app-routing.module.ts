@@ -12,12 +12,6 @@ const routes: Routes = [
   {
     path: 'tabs',
     loadChildren: () => import('./pages/tabs/tabs.module').then( m => m.TabsPageModule)
-  },
-  {
-    path: 'pago',
-    loadChildren: () => import('./pages/pago/pago.module').then( m => m.PagoPageModule),
-    canActivate: [AuthGuard, RoleGuard],
-    data: { role: 'comprador' } //Solo accesible para compradores
   }
 
   

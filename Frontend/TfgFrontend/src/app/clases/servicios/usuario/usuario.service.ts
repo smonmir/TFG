@@ -15,17 +15,10 @@ export class UsuarioService {
 
   private usuarioAutenticado: boolean = false;
 
-  /*
-  private idUsuario$: BehaviorSubject<number> = new BehaviorSubject<number>(0)
 
-  private idUsuario!: number
-
-  private direccionUsuario!: string
-
-  private nombreUsuario!: string
-  */
-
-  constructor(private httpClientService: HttpClientService,  private localStorageService: LocalStorageService) {}
+  constructor(private httpClientService: HttpClientService,  private localStorageService: LocalStorageService) {
+    this.checkToken();
+  }
 
   getUsuarioAutenticado(): boolean{
     return this.usuarioAutenticado;
@@ -44,7 +37,6 @@ export class UsuarioService {
           data.user.email,
           data.user.contrasena,
           data.user.telefono,
-          data.user.direccion,
           rol
         );
       }
@@ -78,59 +70,37 @@ export class UsuarioService {
     return this.usuario;
   }
 
-  /*
-  getIdUsuario(){
-    return this.idUsuario
-  }
 
-  getIdDireccion(){
-    return this.direccionUsuario;
-  }
-
-  getIdUsuario$(): Observable<number>{
-    return from(this.setUserByName()).pipe(
-      switchMap(() => this.idUsuario$.asObservable())
-    );
-  }
-
-
-  setUserByName(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.apiService.get<any>(`${this.USER_URL}/obtenerusuario/${this.nombreUsuario}`, this.localStorageService.getToken()).subscribe(
-        (data) => {
-          this.usuario = new Usuario(data.nombre, data.apellido, data.email, data.contrasena, data.direccion, data.telefono);
-          this.usuario.setId(data.idUsuario);
-          this.idUsuario = data.idUsuario;
-          this.direccionUsuario = data.direccion
-          this.idUsuario$.next(data.idUsuario);
-          resolve();
-        },
-        (error) => {
-          reject(error);
+  async checkToken(): Promise<void> {
+    const token = this.localStorageService.getToken();
+    if (token) {
+        try {
+            const data = await this.httpClientService.verifyToken(token, this.USER_URL);
+            this.usuarioAutenticado = true;
+            const rol = new Rol(data.user.rol.id, data.user.rol.nombre, data.user.rol.descripcion);
+            this.usuario = new Usuario(
+              data.user.id,
+              data.user.nombre,
+              data.user.email,
+              data.user.contrasena,
+              data.user.telefono,
+              rol
+          );
+        } catch (error) {
+            console.error('Error al verificar el token:', error);
+            this.localStorageService.removeToken();
         }
-      );
-    });
+    }
   }
 
-  getAllUsers(): Observable<Usuario[]> {
-    return this.apiService.get<Usuario[]>(this.USER_URL, this.localStorageService.getToken());
+  async actualizarUsuario(data: any): Promise<any> {
+    const token = this.localStorageService.getToken();
+    if (!token) throw new Error('Token no encontrado');
+    const usuarioData = await this.httpClientService.patch<any>(`usuario/${this.usuario.getId()}`, data, token);
+    this.usuario.setContrasena(usuarioData.contrasena);
+    this.usuario.setEmail(usuarioData.email);
+    this.usuario.setNombre(usuarioData.nombre);
+    this.usuario.setTelefono(usuarioData.telefono);
   }
 
-  getUserById(id: number): Observable<Usuario> {
-    return this.apiService.get<Usuario>(`${this.USER_URL}/${id}`, this.localStorageService.getToken());
-  }
-
-  createUser(usuario: Usuario): Observable<Usuario> {
-    return this.apiService.register<Usuario>(`${this.USER_URL}/crearusuario`, usuario);
-  }
-
-  updateUser(id: number, usuario: Usuario): Observable<Usuario> {
-    return this.apiService.put<Usuario>(`${this.USER_URL}/${id}`, usuario);
-  }
-
-  
-  deleteUser(id: number): Observable<Usuario> {
-    return this.apiService.delete<Usuario>(`${this.USER_URL}/${id}`, this.localStorageService.getToken());
-  }
-  */
 }

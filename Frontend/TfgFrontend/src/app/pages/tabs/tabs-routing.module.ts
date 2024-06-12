@@ -44,6 +44,12 @@ const routes: Routes = [
         loadChildren: () => import('../detalle-servicio/detalle-servicio.module').then( m => m.DetalleServicioPageModule)
       },
       {
+        path: 'pago',
+        loadChildren: () => import('../pago/pago.module').then( m => m.PagoPageModule),
+        canActivate: [AuthGuard, RoleGuard],
+        data: { role: 'comprador' } //Solo accesible para compradores
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full'

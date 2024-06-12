@@ -7,25 +7,29 @@
 <ion-content>
   <ion-list>
     <ion-item>
-      <ion-label position="floating">Servicio</ion-label>
-      <ion-input>{{ servicio.getNombre() }}</ion-input>
+      <ion-label>Nombre del servicio</ion-label>
+      <ion-input [value]="servicio.getNombre()" readonly></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Precio</ion-label>
-      <ion-input type="number"></ion-input>
+      <ion-input type="number" [value]="servicio.getPrecio()" readonly></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Dirección</ion-label>
+      <ion-input type="text" [(ngModel)]="detallePago.direccion"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Número de Tarjeta</ion-label>
-      <ion-input  type="text"></ion-input>
+      <ion-input type="text" [(ngModel)]="detallePago.cardNumber"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Fecha de Expiración</ion-label>
-      <ion-input  type="text"></ion-input>
+      <ion-input type="text" [(ngModel)]="detallePago.expirationDate"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="floating">CVV</ion-label>
-      <ion-input  type="text"></ion-input>
+      <ion-input type="text" [(ngModel)]="detallePago.cvv"></ion-input>
     </ion-item>
   </ion-list>
-  <ion-button expand="full" (click)="realizarPago()">Pagar</ion-button>
+  <ion-button (click)="realizarPago()">Pagar</ion-button>
 </ion-content>
