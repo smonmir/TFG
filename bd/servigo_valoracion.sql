@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
 -- Host: localhost    Database: servigo
 -- ------------------------------------------------------
--- Server version	8.3.0
+-- Server version	8.0.35
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -24,17 +24,18 @@ DROP TABLE IF EXISTS `valoracion`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `valoracion` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `usuario_id` int DEFAULT NULL,
   `servicio_id` int DEFAULT NULL,
   `puntuacion` decimal(2,1) DEFAULT NULL,
   `comentario` varchar(45) DEFAULT NULL,
+  `usuario_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `usuario_id_idx` (`usuario_id`),
   KEY `servicio_id_idx` (`servicio_id`),
-  CONSTRAINT `servicio` FOREIGN KEY (`servicio_id`) REFERENCES `servicio` (`id`),
-  CONSTRAINT `usuario_valoracion_id` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `fk_valoracion_usuario` (`usuario_id`),
+  CONSTRAINT `fk_servicio_id` FOREIGN KEY (`servicio_id`) REFERENCES `servicio` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_valoracion_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `servicio` FOREIGN KEY (`servicio_id`) REFERENCES `servicio` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +44,6 @@ CREATE TABLE `valoracion` (
 
 LOCK TABLES `valoracion` WRITE;
 /*!40000 ALTER TABLE `valoracion` DISABLE KEYS */;
-INSERT INTO `valoracion` VALUES (3,1,1,4.5,'¡Gran servicio!'),(4,2,2,5.0,'Muy satisfecho con el servicio proporcionado.');
 /*!40000 ALTER TABLE `valoracion` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-29 20:14:00
+-- Dump completed on 2024-06-13  0:42:04

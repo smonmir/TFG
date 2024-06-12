@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
 -- Host: localhost    Database: servigo
 -- ------------------------------------------------------
--- Server version	8.3.0
+-- Server version	8.0.35
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -30,9 +30,9 @@ CREATE TABLE `servicio_categoria` (
   UNIQUE KEY `idnew_table_UNIQUE` (`id`),
   KEY `servicio_id_idx` (`servicio_id`),
   KEY `categoria_id_idx` (`categoria_id`),
-  CONSTRAINT `categoria_id` FOREIGN KEY (`categoria_id`) REFERENCES `categoria` (`id`),
-  CONSTRAINT `servicio_id` FOREIGN KEY (`servicio_id`) REFERENCES `servicio` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `categoria_id` FOREIGN KEY (`categoria_id`) REFERENCES `categoria` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `servicio_id` FOREIGN KEY (`servicio_id`) REFERENCES `servicio` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,6 @@ CREATE TABLE `servicio_categoria` (
 
 LOCK TABLES `servicio_categoria` WRITE;
 /*!40000 ALTER TABLE `servicio_categoria` DISABLE KEYS */;
-INSERT INTO `servicio_categoria` VALUES (1,1,1),(2,2,1),(3,2,2);
 /*!40000 ALTER TABLE `servicio_categoria` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-29 20:14:00
+-- Dump completed on 2024-06-13  0:42:04

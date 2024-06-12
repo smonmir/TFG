@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
 -- Host: localhost    Database: servigo
 -- ------------------------------------------------------
--- Server version	8.3.0
+-- Server version	8.0.35
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -24,20 +24,21 @@ DROP TABLE IF EXISTS `pedido`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `pedido` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `servicio_id` int DEFAULT NULL,
-  `usuario_id` int DEFAULT NULL,
-  `estado_id` int DEFAULT NULL,
-  `fecha` datetime DEFAULT NULL,
   `precio` decimal(10,2) DEFAULT NULL,
+  `fecha` datetime DEFAULT NULL,
+  `direccion` varchar(45) DEFAULT NULL,
+  `servicio_id` int DEFAULT NULL,
+  `estado_id` int DEFAULT NULL,
+  `usuario_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `servicio_id_idx` (`servicio_id`),
-  KEY `usuario_pedido_id_idx` (`usuario_id`),
   KEY `estado_id_idx` (`estado_id`),
-  CONSTRAINT `estado_id` FOREIGN KEY (`estado_id`) REFERENCES `estado` (`id`),
-  CONSTRAINT `servicio_pedido_id` FOREIGN KEY (`servicio_id`) REFERENCES `servicio` (`id`),
-  CONSTRAINT `usuario_pedido_id` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `fk_pedido_usuario` (`usuario_id`),
+  CONSTRAINT `estado_id` FOREIGN KEY (`estado_id`) REFERENCES `estado` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_pedido_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`),
+  CONSTRAINT `servicio_pedido_id` FOREIGN KEY (`servicio_id`) REFERENCES `servicio` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +47,7 @@ CREATE TABLE `pedido` (
 
 LOCK TABLES `pedido` WRITE;
 /*!40000 ALTER TABLE `pedido` DISABLE KEYS */;
-INSERT INTO `pedido` VALUES (1,1,1,1,'2024-03-29 00:00:00',50.00),(2,2,2,1,'2024-03-30 00:00:00',75.00);
+INSERT INTO `pedido` VALUES (25,10.00,'2024-06-12 21:03:25','Direccion inventada',12,8,36),(26,10.00,'2024-06-12 22:12:45','direccion',12,8,44),(27,10.00,'2024-06-12 22:15:43','direccion',12,8,44),(28,10.00,'2024-06-12 22:28:34','direccion inventada otra vez',12,8,44);
 /*!40000 ALTER TABLE `pedido` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-29 20:14:00
+-- Dump completed on 2024-06-13  0:42:04
