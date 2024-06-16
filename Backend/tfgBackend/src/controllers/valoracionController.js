@@ -59,8 +59,8 @@ export const getValoracionById = async (req, res) => {
                         model: Usuario,
                         attributes: ['id', 'nombre', 'email', 'telefono'],
                         include: [{
-                            model: Rol, // Incluir el modelo 'Rol'
-                            attributes: ['id', 'nombre', 'descripcion'] // Especificar atributos de 'Rol'
+                            model: Rol,
+                            attributes: ['id', 'nombre', 'descripcion']
                         }]
                     }]
                 }
@@ -80,8 +80,47 @@ export const getValoracionById = async (req, res) => {
     }
 };
 
+export const getValoracionesPorServicio = async (req, res) => {
+    const { servicioId } = req.params;
+
+    try {
+        const valoraciones = await Valoracion.findAll({
+            where: { servicio_id: servicioId },
+            include: [
+                {
+                    model: Usuario,
+                    attributes: ['id', 'nombre', 'email', 'telefono'],
+                    include: [{
+                        model: Rol,
+                        attributes: ['id', 'nombre', 'descripcion'] 
+                    }]
+                },
+                {
+                    model: Servicio,
+                    attributes: ['id', 'nombre', 'descripcion', 'precio', 'imagen'],
+                    include: [{
+                        model: Usuario,
+                        attributes: ['id', 'nombre', 'email', 'telefono'],
+                        include: [{
+                            model: Rol,
+                            attributes: ['id', 'nombre', 'descripcion']
+                        }]
+                    }]
+                }
+              ]
+        });
+
+        res.json(valoraciones);
+    } catch (error) {
+        console.error('Error al obtener valoraciones por servicio:', error);
+        return res.status(500).json({
+            message: 'Algo fue mal'
+        });
+    }
+};
+
 export const createValoracion = async (req, res) => {
-    const { nombre, puntuacion, comentario, usuario_id, servicio_id } = req.body;
+    const { puntuacion, comentario, usuario_id, servicio_id } = req.body;
 
     try {
         const usuario = await Usuario.findByPk(usuario_id);
@@ -95,7 +134,6 @@ export const createValoracion = async (req, res) => {
         }
 
         const nuevoValoracion = await Valoracion.create({
-            nombre,
             puntuacion,
             comentario,
             usuario_id,

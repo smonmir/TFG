@@ -8,18 +8,59 @@
 </ion-header>
 
 <ion-content>
-  <ion-card *ngIf="servicio">
-    <img [src]="servicio.getImagen()" alt="{{ servicio.getNombre() }}" />
-    <ion-card-header>
-      <ion-card-title>{{ servicio.getNombre() }}</ion-card-title>
-      <ion-card-subtitle>{{ servicio.getPrecio() | currency }}</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <p>{{ servicio.getDescripcion() }}</p>
-      <p><strong>Autor:</strong> {{ servicio.getUsuario().getNombre() }}</p>
-    </ion-card-content>
-  </ion-card>
-  <ion-button (click)="irHome()">Volver</ion-button>
-  <ion-button (click)="irPago()">Realizar pago</ion-button>
-</ion-content>
+  <ion-spinner *ngIf="cargando" name="crescent"></ion-spinner>
 
+  <div *ngIf="!cargando">
+    <ion-card *ngIf="servicio">
+      <img [src]="servicio.getImagen()" alt="{{ servicio.getNombre() }}" />
+      <ion-card-header>
+        <ion-card-title>{{ servicio.getNombre() }}</ion-card-title>
+        <ion-card-subtitle>{{ servicio.getPrecio() | currency }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p>{{ servicio.getDescripcion() }}</p>
+        <p><strong>Autor:</strong> {{ servicio.getUsuario().getNombre() }}</p>
+        <ion-button (click)="irHome()">Volver</ion-button>
+        <ion-button (click)="irPago()">Contratar Servicio </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ miValoracion ? 'Actualizar tu valoración' : 'Agregar una valoración' }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="floating">Puntuación</ion-label>
+          <ion-input [(ngModel)]="miValoracion ? miValoracion.puntuacion : nuevaValoracion.puntuacion" type="number"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Comentario</ion-label>
+          <ion-input [(ngModel)]="miValoracion ? miValoracion.comentario : nuevaValoracion.comentario"></ion-input>
+        </ion-item>
+        <ion-button *ngIf="!miValoracion" (click)="agregarValoracion()">Agregar Valoración</ion-button>
+        <ion-button *ngIf="miValoracion" (click)="actualizarValoracion()">Actualizar Valoración</ion-button>
+        <ion-button *ngIf="miValoracion" (click)="eliminarValoracion()">Eliminar Valoración</ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-list>
+      <ion-list-header>
+        <ion-label>Valoraciones</ion-label>
+      </ion-list-header>
+      <ion-card *ngFor="let valoracion of valoraciones">
+        <ion-card-header>
+          <ion-card-title>{{ valoracion.getUsuario().getNombre() }}</ion-card-title>
+          <ion-card-subtitle>{{ valoracion.getPuntuacion() }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <p>{{ valoracion.getComentario() }}</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+
+
+  </div>
+</ion-content>

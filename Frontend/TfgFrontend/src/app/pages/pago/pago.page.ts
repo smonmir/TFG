@@ -12,11 +12,9 @@ export class PagoPage implements OnInit {
 
   servicio!: Servicio;
 
-  detallePago = {
+  detalleContratacion = {
     direccion: '',
-    cardNumber: '',
-    expirationDate: '',
-    cvv: ''
+    telefono: undefined
   };
 
   constructor(private router: Router, private servicioPedido: PedidoService) { }
@@ -24,15 +22,17 @@ export class PagoPage implements OnInit {
   ngOnInit() {
     this.servicio = this.servicioPedido.getServicio();
   }
+  ionViewWillEnter() {
+    this.servicio = this.servicioPedido.getServicio();
+  }
 
   async realizarPago() {
-    if (!this.detallePago.direccion || !this.detallePago.cardNumber || !this.detallePago.expirationDate || !this.detallePago.cvv) {
+    if (!this.detalleContratacion.direccion || !this.detalleContratacion.telefono) {
       console.error('Todos los campos son obligatorios');
       return;
     }
-
     try {
-      await this.servicioPedido.realizarPago(this.detallePago.direccion);
+      await this.servicioPedido.realizarPago(this.detalleContratacion);
       console.log('Pago realizado con éxito');
       this.router.navigate(['/tabs/home']);
     } catch (error) {

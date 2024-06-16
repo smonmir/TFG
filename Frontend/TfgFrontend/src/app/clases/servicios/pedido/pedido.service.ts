@@ -82,7 +82,7 @@ export class PedidoService {
   }
 
 
-  async realizarPago(direccion: string): Promise<any> {
+  async realizarPago(detalleContratacion: any): Promise<any> {
     const token = this.localStorage.getToken();
     if (!token) {
       return Promise.reject('No se encontró el token');
@@ -91,10 +91,11 @@ export class PedidoService {
     const datosPedido = {
       fecha: this.getFechaHorarioActual(),
       precio: this.servicio.getPrecio(),
-      direccion: direccion,
+      direccion: detalleContratacion.direccion,
       usuario_id: this.usuarioService.getUsuario().getId(),
       servicio_id: this.servicio.getId(),
-      estado_id: 8
+      estado_id: 8,
+      telefonoSecundario: detalleContratacion.telefono
     };
 
     try {

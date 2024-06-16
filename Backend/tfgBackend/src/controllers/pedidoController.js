@@ -128,7 +128,7 @@ export const getPedidosUsuario = async (req, res) => {
   
 
 export const createPedido = async (req, res) => {
-    const { fecha, precio, direccion, usuario_id, servicio_id, estado_id } = req.body;
+    const { fecha, precio, direccion, usuario_id, servicio_id, estado_id, telefonoSecundario } = req.body;
 
     try {
         const comprador = await Usuario.findByPk(usuario_id);
@@ -160,19 +160,26 @@ export const createPedido = async (req, res) => {
             return res.status(400).json({ mensaje: "El vendedor del servicio especificado no existe" });
         }
 
-        /*
         await sendEmail(
             comprador.email,
             'Confirmación de pedido',
-            `Has comprado el servicio "${servicio.nombre}" por ${precio} euros.`
+            `Has contratado el servicio "${servicio.nombre}". Pronto el vendedor se prondra contigo con el siguiente numero: "${vendedor.telefono}"`
         );
-        
-        await sendEmail(
-            vendedor.email,
-            'Nuevo pedido realizado',
-            `El usuario ${comprador.nombre} ha comprado tu servicio "${servicio.nombre}".`
-        );
-        */
+
+        if(telefonoSecundario){
+            await sendEmail(
+                vendedor.email,
+                'Nuevo pedido realizado',
+                `El usuario ${comprador.nombre} ha contratado tu servicio "${servicio.nombre}". Ponte en contacto con el cliente con el siguiente número de telefono: "${comprador.telefono}"`
+            ); 
+        }
+        else{
+            await sendEmail(
+                vendedor.email,
+                'Nuevo pedido realizado',
+                `El usuario ${comprador.nombre} ha contratado tu servicio "${servicio.nombre}". Ponte en contacto con el cliente con el siguiente número de telefono: "${comprador.telefono}". En caso de que no puedas ponerte en contacto, el cliente ha asignado un segundo numero de telefono: "${telefonoSecundario}"`
+            );
+        }
         
 
         res.status(201).json(nuevoPedido);
