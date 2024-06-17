@@ -1,49 +1,46 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <div class="ionToolBar">
-      <ion-title>Servigo</ion-title>
-    </div>
+    <ion-title class="header-title">Servigo</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content style="height: 100%; overflow-y: scroll;">
-  <div class="divSearchSelect">
-    <ion-searchbar 
-      animated="true" 
-      placeholder="Buscar" 
-      (ionInput)="onSearchChange($event)"
-    ></ion-searchbar>
-  </div>
+<ion-content>
+  <div class="container">
+    <div class="search-bar-container">
+      <ion-searchbar 
+        animated="true" 
+        placeholder="Buscar" 
+        (ionInput)="onSearchChange($event)"
+      ></ion-searchbar>
+    </div>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col *ngFor="let servicio of servicios" size="6" size-md="4" size-lg="3">
-        <ion-card (click)="verDescripcionServicio(servicio)">
-          <img alt="Silhouette of mountains" [src]="servicio.getImagen()" />
-          <ion-card-header>
-            <ion-card-title>{{ servicio.getNombre() }}</ion-card-title>
-            <ion-card-subtitle>{{ servicio.getPrecio() | currency }}</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            {{ servicio.getDescripcion() }}
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-
-  <ion-footer>
-    <ion-toolbar>
-      <ion-row class="ion-justify-content-between">
-        <ion-col class="ion-text-center">
-          <ion-button (click)="cargarPaginaAnterior()" [disabled]="currentPage === 1">Anterior</ion-button>
-        </ion-col>
-        <ion-col class="ion-text-center">
-          <ion-button (click)="cargarPaginaSiguiente()" [disabled]="currentPage === totalPages">Siguiente</ion-button>
+    <ion-grid>
+      <ion-row>
+        <ion-col *ngFor="let servicio of servicios" size="12" size-sm="6" size-md="4" size-lg="3">
+          <ion-card (click)="verDescripcionServicio(servicio)" class="service-card">
+            <img alt="Service Image" [src]="servicio.getImagen()" />
+            <ion-card-header>
+              <ion-card-title>{{ servicio.getNombre() }}</ion-card-title>
+              <ion-card-subtitle>{{ servicio.getPrecio() | currency }}</ion-card-subtitle>
+            </ion-card-header>
+          </ion-card>
         </ion-col>
       </ion-row>
-    </ion-toolbar>
-  </ion-footer>
+    </ion-grid>
+
+    <ion-footer>
+      <ion-toolbar>
+        <ion-row class="ion-justify-content-between">
+          <ion-col class="ion-text-center">
+            <ion-button expand="block" (click)="cargarPaginaAnterior()" [disabled]="currentPage == 1">Anterior</ion-button>
+          </ion-col>
+          <ion-col class="ion-text-center">
+            <ion-button expand="block" (click)="cargarPaginaSiguiente()" [disabled]="currentPage == totalPages">Siguiente</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-toolbar>
+    </ion-footer>
+  </div>
 </ion-content>
+
 

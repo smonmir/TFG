@@ -1,77 +1,71 @@
-
-.ionToolBar{
-  display: flex;
-  height: 70px;
-}
-
-.ionToolBarButton{
-  margin-right: 50px;
-  height: 40px;
-  width: 140px;
-  position: relative;
-  top: 10px;
-}
-
-.divSearchSelect{
-  display: flex;
-}
-
-.ionSelect{
-  max-width: 250px;
-}
-
-.scrollableGrid {
-  height: 100%;
-  overflow-y: scroll;
-}
-
-@media (max-width: 768px) {
-  .ionToolBarButton{
-    margin-right: 30px;
-    height: 40px;
-    width: 140px;
-    position: relative;
-    top: 10px;
+ion-header {
+  .header-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: var(--ion-color-primary);
   }
-  
 }
 
-@media (max-width: 425px) {
-  .ionToolBarButton{
-    margin-right: 10px;
-    height: 40px;
-    width: 140px;
-    position: relative;
-    top: 10px;
+.container {
+  padding: 16px;
+}
+
+.search-bar-container {
+  margin-bottom: 16px;
+}
+
+.service-card {
+  img {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
   }
-  
+
+  ion-card-header {
+    text-align: center;
+
+    ion-card-title {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    ion-card-subtitle {
+      font-size: 14px;
+      color: var(--ion-color-medium);
+    }
+  }
+
+  ion-card-content {
+    font-size: 14px;
+    color: var(--ion-color-dark);
+  }
 }
 
+ion-footer {
+  ion-toolbar {
+    padding: 0 16px;
+  }
 
-#container {
-  text-align: center;
+  ion-row {
+    width: 100%;
 
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+    ion-col {
+      display: flex;
+      justify-content: center;
+    }
+
+    ion-button {
+      width: 100%;
+    }
+  }
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
+@media (min-width: 768px) {
+  .container {
+    padding: 32px;
+  }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
+  .search-bar-container {
+    margin-bottom: 24px;
+  }
 }

@@ -1,0 +1,104 @@
+ion-header {
+    .header-title {
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      color: var(--ion-color-primary);
+    }
+}
+  
+.service-detail-card {
+  img {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  ion-card-header {
+    text-align: center;
+
+    ion-card-title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    ion-card-subtitle {
+      font-size: 16px;
+      color: var(--ion-color-medium);
+    }
+  }
+
+  ion-card-content {
+    font-size: 16px;
+    color: var(--ion-color-dark);
+
+    p {
+      margin: 8px 0;
+    }
+
+    ion-button {
+      margin-top: 16px;
+    }
+  }
+}
+  
+.review-card {
+  ion-card-header {
+    text-align: center;
+
+    ion-card-title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+
+  ion-card-content {
+    ion-item {
+      margin-bottom: 16px;
+
+      ion-input {
+        --padding-start: 0;
+      }
+    }
+
+    ion-button {
+      margin-top: 16px;
+    }
+  }
+}
+
+.reviews-list {
+  margin-top: 24px;
+
+  .review-item-card {
+    ion-card-header {
+      ion-card-title {
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      ion-card-subtitle {
+        font-size: 14px;
+        color: var(--ion-color-medium);
+      }
+    }
+
+    ion-card-content {
+      font-size: 14px;
+      color: var(--ion-color-dark);
+    }
+  }
+}
+
+.ion-label-perso{
+  font-size: 18px;
+  font-weight: bold;
+}
+  
+@media (min-width: 768px) {
+  .service-detail-card,
+  .review-card,
+  .reviews-list {
+    margin: 0 16px;
+  }
+}
+  

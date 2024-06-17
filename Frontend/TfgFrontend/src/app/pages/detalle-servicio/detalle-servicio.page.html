@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ servicio.getNombre() }}</ion-title>
+    <ion-title class="header-title">Detalles del servicio</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -20,35 +20,36 @@
       <ion-card-content>
         <p>{{ servicio.getDescripcion() }}</p>
         <p><strong>Autor:</strong> {{ servicio.getUsuario().getNombre() }}</p>
-        <ion-button (click)="irHome()">Volver</ion-button>
-        <ion-button (click)="irPago()">Contratar Servicio </ion-button>
+        <ion-button expand="block" (click)="irHome()">Volver</ion-button>
+        <ion-button expand="block" color="primary" (click)="irPago()">Contratar Servicio</ion-button>
       </ion-card-content>
     </ion-card>
-
-
 
     <ion-card>
       <ion-card-header>
         <ion-card-title>{{ miValoracion ? 'Actualizar tu valoración' : 'Agregar una valoración' }}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <ion-item>
-          <ion-label position="floating">Puntuación</ion-label>
-          <ion-input [(ngModel)]="miValoracion ? miValoracion.puntuacion : nuevaValoracion.puntuacion" type="number"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Comentario</ion-label>
-          <ion-input [(ngModel)]="miValoracion ? miValoracion.comentario : nuevaValoracion.comentario"></ion-input>
-        </ion-item>
-        <ion-button *ngIf="!miValoracion" (click)="agregarValoracion()">Agregar Valoración</ion-button>
-        <ion-button *ngIf="miValoracion" (click)="actualizarValoracion()">Actualizar Valoración</ion-button>
-        <ion-button *ngIf="miValoracion" (click)="eliminarValoracion()">Eliminar Valoración</ion-button>
+        <form [formGroup]="valoracionForm" (ngSubmit)="miValoracion ? actualizarValoracion() : agregarValoracion()">
+          <ion-item>
+            <ion-label position="floating">Puntuación</ion-label>
+            <ion-input type="number" formControlName="puntuacion" min="1" max="10"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Comentario</ion-label>
+            <ion-input formControlName="comentario"></ion-input>
+          </ion-item>
+          <ion-button expand="block" type="submit">
+            {{ miValoracion ? 'Actualizar Valoración' : 'Agregar Valoración' }}
+          </ion-button>
+          <ion-button expand="block" color="danger" *ngIf="miValoracion" (click)="eliminarValoracion()">Eliminar Valoración</ion-button>
+        </form>
       </ion-card-content>
     </ion-card>
 
     <ion-list>
       <ion-list-header>
-        <ion-label>Valoraciones</ion-label>
+        <ion-label class="ion-label-perso">Valoraciones de los usuarios</ion-label>
       </ion-list-header>
       <ion-card *ngFor="let valoracion of valoraciones">
         <ion-card-header>
@@ -60,7 +61,5 @@
         </ion-card-content>
       </ion-card>
     </ion-list>
-
-
   </div>
 </ion-content>

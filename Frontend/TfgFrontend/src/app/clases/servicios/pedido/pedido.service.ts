@@ -43,15 +43,26 @@ export class PedidoService {
           estadoData.descripcion
         );
 
-        const rol = new Rol(rolData.id, rolData.nombre, rolData.descripcion);
+        const rolUsuPedido = new Rol(rolData.id, rolData.nombre, rolData.descripcion);
 
-        const usuario = new Usuario(
+        const usuarioPedido = new Usuario(
           usuarioData.id,
           usuarioData.nombre,
           usuarioData.email,
           usuarioData.contrasena,
           usuarioData.telefono,
-          rol
+          rolUsuPedido
+        );
+
+        const rolUsuServicio = new Rol(servicioData.usuario.rol.id, servicioData.usuario.rol.nombre, servicioData.usuario.rol.descripcion);
+
+        const usuarioServicio = new Usuario(
+          servicioData.usuario.id,
+          servicioData.usuario.nombre,
+          servicioData.usuario.email,
+          servicioData.usuario.contrasena,
+          servicioData.usuario.telefono,
+          rolUsuServicio
         );
 
         const servicio = new Servicio(
@@ -60,7 +71,7 @@ export class PedidoService {
           servicioData.descripcion,
           servicioData.precio,
           servicioData.imagen,
-          usuario
+          usuarioServicio
         );
 
         return new Pedido(
@@ -68,7 +79,7 @@ export class PedidoService {
           pedidoData.precio,
           pedidoData.fecha,
           pedidoData.direccion,
-          usuario,
+          usuarioPedido,
           servicio,
           estado
         );

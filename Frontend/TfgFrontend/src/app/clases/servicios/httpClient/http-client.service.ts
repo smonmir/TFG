@@ -15,8 +15,16 @@ export class HttpClientService {
     return await this.http.post<any>(`${this.API_URL}/${USER_URL}/login`, { email: email, contrasena: contrasena }).toPromise();
   }
 
-  async registro(nombre: string, email: string, contrasena: string, rol_id: number, USER_URL: string): Promise<any> {
-    return await this.http.post<any>(`${this.API_URL}/${USER_URL}`, { nombre: nombre, email: email, contrasena: contrasena, rol_id: rol_id }).toPromise();
+  async registro(nombre: string, email: string, contrasena: string, telefono: string, rol_id: number, USER_URL: string): Promise<any> {
+    return await this.http.post<any>(`${this.API_URL}/${USER_URL}`, { nombre: nombre, email: email, contrasena: contrasena, telefono: telefono, rol_id: rol_id }).toPromise();
+  }
+
+  async enviarCodigoVerificacion(email: string, USER_URL: string): Promise<any> {
+    return await this.http.post<any>(`${this.API_URL}/${USER_URL}/codigo/enviarCodigo`, { email }).toPromise();
+  }
+
+  async verificarCodigo(email: string, codigo: string, USER_URL: string): Promise<any> {
+    return await this.http.post<any>(`${this.API_URL}/${USER_URL}/verificarCodigo`, { email, codigo }).toPromise();
   }
 
   async verifyToken(token: string, USER_URL: string): Promise<any> {

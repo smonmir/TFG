@@ -2,6 +2,92 @@ import {Usuario} from '../models/usuarioModel.js'
 import {Rol} from '../models/rolModel.js'
 import {generateToken, isValidEmail, comparePassword} from '../servicios/usuarioServicio.js'
 import bcrypt from 'bcrypt'
+import { sendEmail } from '../servicios/emailServicio.js';
+import * as crypto from 'crypto';
+
+const verificationCodes = new Map();
+
+
+export const enviarCodigoVerificacion = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const usuarioExistenteEmail = await Usuario.findOne({ where: { email } });
+    if (usuarioExistenteEmail) {
+      return res.status(400).json({ mensaje: 'El correo electrónico ya está en uso' });
+    }
+
+    const codigoVerificacion = crypto.randomBytes(3).toString('hex');
+    verificationCodes.set(email, codigoVerificacion);
+
+    await sendEmail(email, 'Código de verificación', `Tu código de verificación es: ${codigoVerificacion}`);
+    res.status(200).json({ mensaje: 'Código de verificación enviado al correo electrónico.' });
+  } catch (error) {
+    console.error('Error al enviar código de verificación:', error);
+    return res.status(500).json({ message: 'Algo fue mal' });
+  }
+};
+
+
+export const verificarCodigo = async (req, res) => {
+    const { email, codigo } = req.body;
+  
+    const codigoAlmacenado = verificationCodes.get(email);
+    if (!codigoAlmacenado || codigoAlmacenado !== codigo) {
+      return res.status(400).json({ mensaje: 'Código de verificación incorrecto' });
+    }
+  
+    verificationCodes.delete(email);
+    res.status(200).json({ mensaje: 'Correo electrónico verificado con éxito' });
+};
+
+
+export const createUsuario = async (req, res) => {
+    const { nombre, email, contrasena, telefono, rol_id } = req.body;
+
+    try {
+        const usuarioExistenteEmail = await Usuario.findOne({ where: { email } });
+        const usuarioExistenteNombre = await Usuario.findOne({ where: { nombre } });
+      
+        if (usuarioExistenteEmail || usuarioExistenteNombre) {
+          const mensajeError = usuarioExistenteEmail ? 'El correo electrónico ya está en uso' : 'El nombre de usuario ya está en uso';
+          return res.status(400).json({ mensaje: mensajeError });
+        }
+
+        else{
+            let rolId = rol_id; 
+
+            if (rolId === null || isNaN(rolId)) {
+                rolId = 2;
+                console.log('Usuario registrado sin rol, se le asigna rol 2(cliente) por defecto');
+            }
+        
+            const rol = await Rol.findByPk(rolId);
+            if (!rol) {
+                return res.status(400).json({ mensaje: 'El rol especificado no existe' });
+            }
+            
+            const hashedPassword = await bcrypt.hash(contrasena, 10);
+
+            console.log("hashedPassword: "+hashedPassword)
+
+            const nuevoUsuario = await Usuario.create({
+                nombre,
+                email,
+                contrasena: hashedPassword,
+                telefono,
+                rol_id: rolId
+            });
+            
+            res.status(201).json(nuevoUsuario);
+        }
+    } catch (error) {
+        console.error('Error al crear usuario:', error);
+        return res.status(500).json({
+            message: 'Algo fue mal' 
+        });
+    }
+};
 
 
 export const login = async (req, res) => {
@@ -56,53 +142,8 @@ export const getMe = async (req, res) => {
     }
 };
 
-export const createUsuario = async (req, res) => {
-    const { nombre, email, contrasena, telefono = null, rol_id } = req.body;
 
-    try {
-        const usuarioExistenteEmail = await Usuario.findOne({ where: { email } });
-        const usuarioExistenteNombre = await Usuario.findOne({ where: { nombre } });
-      
-        if (usuarioExistenteEmail || usuarioExistenteNombre) {
-          const mensajeError = usuarioExistenteEmail ? 'El correo electrónico ya está en uso' : 'El nombre de usuario ya está en uso';
-          return res.status(400).json({ mensaje: mensajeError });
-        }
 
-        else{
-            let rolId = rol_id; 
-
-            if (rolId === null || isNaN(rolId)) {
-                rolId = 2;
-                console.log('Usuario registrado sin rol, se le asigna rol 2(cliente) por defecto');
-            }
-        
-            const rol = await Rol.findByPk(rolId);
-            if (!rol) {
-                return res.status(400).json({ mensaje: 'El rol especificado no existe' });
-            }
-            
-            const hashedPassword = await bcrypt.hash(contrasena, 10);
-
-            console.log("hashedPassword: "+hashedPassword)
-
-            const nuevoUsuario = await Usuario.create({
-                nombre,
-                email,
-                contrasena: hashedPassword,
-                telefono: telefono == null ? null : telefono,
-                rol_id: rolId
-            });
-            
-            res.status(201).json(nuevoUsuario);
-        }
-    } catch (error) {
-        console.error('Error al crear usuario:', error);
-        return res.status(500).json({
-            message: 'Algo fue mal' 
-        });
-    }
-};
-  
 
 export const getUsuario = async (req, res) => {
     try {

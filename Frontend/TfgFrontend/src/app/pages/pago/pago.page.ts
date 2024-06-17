@@ -27,7 +27,7 @@ export class PagoPage implements OnInit {
   }
 
   async realizarPago() {
-    if (!this.detalleContratacion.direccion || !this.detalleContratacion.telefono) {
+    if (!this.detalleContratacion.direccion) {
       console.error('Todos los campos son obligatorios');
       return;
     }

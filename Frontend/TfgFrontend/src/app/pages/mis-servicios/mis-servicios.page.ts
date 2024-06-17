@@ -110,5 +110,4 @@ export class MisServiciosPage implements OnInit {
     this.formularioServicio.reset();
   }
 
-  
 }

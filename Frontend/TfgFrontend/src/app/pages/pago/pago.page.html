@@ -1,27 +1,50 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Realizar Pago</ion-title>
+    <ion-title class="header-title">Realizar Pago</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-list>
-    <ion-item>
-      <ion-label>Nombre del servicio</ion-label>
-      <ion-input [value]="servicio.getNombre()" readonly></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Precio</ion-label>
-      <ion-input type="number" [value]="servicio.getPrecio()" readonly></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Dirección</ion-label>
-      <ion-input type="text" [(ngModel)]="detalleContratacion.direccion"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Numero de telefono secundario opcional</ion-label>
-      <ion-input type="number" [(ngModel)]="detalleContratacion.telefono"></ion-input>
-    </ion-item>
-  </ion-list>
-  <ion-button (click)="realizarPago()">Contratar</ion-button>
+<ion-content class="payment-form">
+  <form (ngSubmit)="realizarPago()" #pagoForm="ngForm">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Detalles del Servicio</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-label position="stacked">Nombre del servicio</ion-label>
+          <br>
+          <p>{{servicio.getNombre()}}<p>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-label position="stacked">Precio</ion-label>
+          <br>
+          <p>{{servicio.getPrecio()}}€</p>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Datos de Contacto</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked" class="ionLabelPerso">Dirección</ion-label>
+          <ion-input type="text" required [(ngModel)]="detalleContratacion.direccion" name="direccion"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked" class="ionLabelPerso">Teléfono secundario (opcional)</ion-label>
+          <ion-input type="number" [(ngModel)]="detalleContratacion.telefono" name="telefono"></ion-input>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-button expand="block" type="submit" [disabled]="!pagoForm.form.valid">Contratar</ion-button>
+  </form>
 </ion-content>
+

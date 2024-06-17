@@ -153,7 +153,7 @@ export const createValoracion = async (req, res) => {
 
 export const updateValoracion = async (req, res) => {
     const { id } = req.params;
-    const { nombre, puntuacion, comentario, usuario_id, servicio_id } = req.body;
+    const { puntuacion, comentario, usuario_id, servicio_id } = req.body;
 
     try {
         const valoracion = await Valoracion.findByPk(id); 
@@ -174,7 +174,6 @@ export const updateValoracion = async (req, res) => {
 
         const datosActualizados = {};
 
-        datosActualizados.nombre = nombre || valoracion.nombre;
         datosActualizados.puntuacion = puntuacion || valoracion.puntuacion;
         datosActualizados.comentario = comentario || valoracion.comentario;
         datosActualizados.usuario_id = usuario_id || valoracion.usuario_id;

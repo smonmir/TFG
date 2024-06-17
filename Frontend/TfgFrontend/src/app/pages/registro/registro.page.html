@@ -1,47 +1,88 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Registro</ion-title>
+    <ion-title class="header-title">Registro</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-card class="card">
-    <ion-card-header>
-      <ion-card-title>Registrarse</ion-card-title>
-    </ion-card-header>
-  
-    <ion-card-content class="ion-text-center">
-      <form [formGroup]="formularioRegistro" (ngSubmit)="registro()">
-        <ion-item>
-          <ion-label position="floating">Nombre</ion-label>
-          <ion-input type="text" formControlName="nombre"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Email</ion-label>
-          <ion-input type="email" formControlName="email"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Contraseña</ion-label>
-          <ion-input type="password" formControlName="contrasena"></ion-input>
-        </ion-item>
+  <div class="container">
+    <ion-card class="card" *ngIf="!mostrarCodigoVerificacion">
+      <ion-card-header>
+        <ion-card-title class="card-title">Registrarse</ion-card-title>
+      </ion-card-header>
 
-        <ion-list>
-          <ion-radio-group formControlName="rol">
-            <ion-item>
-              <ion-label>Comprador</ion-label>
-              <ion-radio slot="start" value="comprador"></ion-radio>
-            </ion-item>
-            <ion-item>
-              <ion-label>Vendedor</ion-label>
-              <ion-radio slot="start" value="vendedor"></ion-radio>
-            </ion-item>
-          </ion-radio-group>
-        </ion-list>
+      <ion-card-content>
+        <form [formGroup]="formularioRegistro" (ngSubmit)="enviarCodigoVerificacion()">
+          <ion-item >
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input type="text" formControlName="nombre"></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="formularioRegistro.get('nombre')?.invalid && formularioRegistro.get('nombre')?.touched">
+            <p *ngIf="formularioRegistro.get('nombre')?.hasError('required')">Requerido</p>
+          </ion-text>
 
-        <ion-button type="submit">Registrarse</ion-button>
-        <ion-button (click)="cancelar()">Cancelar</ion-button>
-      </form>
-    </ion-card-content>
-  </ion-card>
+          <ion-item >
+            <ion-label position="floating">Email</ion-label>
+            <ion-input type="email" formControlName="email"></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="formularioRegistro.get('email')?.invalid && formularioRegistro.get('email')?.touched">
+            <p>El email es obligatorio y debe tener un formato válido</p>
+          </ion-text>
+
+          <ion-item >
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input type="password" formControlName="contrasena"></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="formularioRegistro.get('contrasena')?.invalid && formularioRegistro.get('contrasena')?.touched">
+            <p>La contraseña es obligatoria</p>
+          </ion-text>
+
+          <ion-item >
+            <ion-label position="floating">Telefono</ion-label>
+            <ion-input type="text" formControlName="telefono"></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="formularioRegistro.get('telefono')?.invalid && formularioRegistro.get('telefono')?.touched">
+            <p>El teléfono es obligatorio, debe tener 9 dígitos y no debe contener letras</p>
+          </ion-text>
+
+          <ion-list>
+            <ion-radio-group formControlName="rol">
+              <ion-item lines="none">
+                <ion-label>Comprador</ion-label>
+                <ion-radio slot="start" value="comprador"></ion-radio>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-label>Vendedor</ion-label>
+                <ion-radio slot="start" value="vendedor"></ion-radio>
+              </ion-item>
+            </ion-radio-group>
+          </ion-list>
+
+          <ion-button expand="block" type="submit" [disabled]="!formularioRegistro.valid">Registrarse</ion-button>
+          <ion-button expand="block" fill="outline" (click)="cancelar()">Cancelar</ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="card" *ngIf="mostrarCodigoVerificacion">
+      <ion-card-header>
+        <ion-card-title class="card-title">Verificación de correo</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <form [formGroup]="codigoVerificacionForm" (ngSubmit)="verificarCodigoYRegistrar()">
+          <ion-item lines="none">
+            <ion-label position="floating">Código de verificación</ion-label>
+            <ion-input type="text" formControlName="codigo"></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="codigoVerificacionForm.get('codigo')?.invalid && codigoVerificacionForm.get('codigo')?.touched">
+            <p *ngIf="codigoVerificacionForm.get('codigo')?.hasError('required')">Requerido</p>
+          </ion-text>
+
+          <ion-button expand="block" type="submit" [disabled]="!codigoVerificacionForm.valid">Verificar y Registrar</ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
 

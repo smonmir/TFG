@@ -1,20 +1,65 @@
-
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Historial de Pedidos</ion-title>
+    <ion-title class="header-title">Historial de Pedidos</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-list>
-    <ion-item *ngFor="let pedido of pedidos">
-      <ion-label>
-        <h2>Pedido {{ pedido.getId() }}</h2>
-        <p>Total: {{ pedido.getPrecio() | currency }}</p>
-        <p>Fecha: {{ pedido.getFecha() | date }}</p>
-        <p>Direccion: {{ pedido.getDireccion() }}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
-</ion-content>
+<ion-content class="pedido-container">
+  <div class="container">
+    <ion-list>
+      <ion-item *ngFor="let pedido of pedidos" class="pedido-item">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Pedido {{ pedido.getId() }}</ion-card-title>
+          </ion-card-header>
 
+          <ion-card-content>
+            <ion-list>
+              <ion-item>
+                <div>
+                  <ion-label>Servicio:</ion-label>
+                  <ion-text>{{ pedido.getServicio().getNombre() }}</ion-text>
+                </div>
+              </ion-item>
+
+              <ion-item>
+                <div>
+                  <ion-label>Precio:</ion-label>
+                  <ion-text>{{ pedido.getPrecio() }}€</ion-text>
+                </div>
+              </ion-item>
+
+              <ion-item>
+                <div>
+                  <ion-label>Fecha:</ion-label>
+                  <ion-text>{{ pedido.getFecha() | date:'mediumDate' }}</ion-text>
+                </div>
+              </ion-item>
+
+              <ion-item>
+                <div>
+                  <ion-label>Dirección:</ion-label>
+                  <ion-text>{{ pedido.getDireccion() }}</ion-text>
+                </div>
+              </ion-item>
+
+              <ion-item>
+                <div>
+                  <ion-label>Autor del servicio:</ion-label>
+                  <ion-text>{{ pedido.getServicio().getUsuario().getNombre() }}</ion-text>
+                </div>
+              </ion-item>
+
+              <ion-item>
+                <div>
+                  <ion-label>Teléfono de contacto:</ion-label>
+                  <ion-text>{{ pedido.getServicio().getUsuario().getTelefono() }}</ion-text>
+                </div>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

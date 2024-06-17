@@ -47,18 +47,21 @@ export class UsuarioService {
     })
   }
 
-  async registro(nombre: string, email: string, contrasena: string, rol: string): Promise<any> {
-    try{
-      let rol_id = 2;
-      if(rol == "vendedor"){
-        rol_id = 3;
-      }
-      await this.httpClientService.registro(nombre, email, contrasena, rol_id, this.USER_URL)
+  async registro(datosRegistro: any): Promise<any> {
+    const { nombre, email, contrasena, telefono, rol } = datosRegistro;
+    let rol_id = 2;
+    if (rol == "vendedor") {
+      rol_id = 3;
     }
-    catch(error){
-      console.error('Error al registrarse:', error);
-      throw error;
-    }
+    return await this.httpClientService.registro(nombre, email, contrasena, telefono, rol_id, this.USER_URL);
+  }
+
+  async enviarCodigoVerificacion(email: string): Promise<any> {
+    return await this.httpClientService.enviarCodigoVerificacion(email, this.USER_URL);
+  }
+
+  async verificarCodigo(email: string, codigo: string): Promise<any> {
+    return await this.httpClientService.verificarCodigo(email, codigo, this.USER_URL);
   }
 
   async logout(): Promise<any>{
@@ -69,7 +72,6 @@ export class UsuarioService {
   getUsuario(){
     return this.usuario;
   }
-
 
   async checkToken(): Promise<void> {
     const token = this.localStorageService.getToken();

@@ -40,7 +40,7 @@ export class HomePage {
 
   async onSearchChange(event: any) {
     this.searchQuery = event.target.value;
-    this.currentPage = 1;  // Reset to the first page on search
+    this.currentPage = 1;
     await this.cargarServicios();
   }
 
