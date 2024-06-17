@@ -40,6 +40,7 @@ export class DetalleServicioPage implements OnInit {
 
   private async cargarDatos() {
     try {
+      this.miValoracion = undefined;
       this.cargando = true;
       this.usuario = this.usuarioService.getUsuario();
       this.servicio = this.servicioService.getServicio();

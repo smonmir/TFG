@@ -1,52 +1,71 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Gestión de Servicios</ion-title>
+    <ion-title class="header-title">Gestión de Servicios</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-card class="card">
-    <ion-card-header>
-      <ion-card-title>{{ estaEditando ? 'Editar Servicio' : 'Añadir Servicio' }}</ion-card-title>
-    </ion-card-header>
-  
-    <ion-card-content>
-      <form [formGroup]="formularioServicio" (submit)="anadirActualizrServicio()">
-        <ion-item>
-          <ion-label position="floating">Nombre</ion-label>
-          <ion-input type="text" formControlName="nombre"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Descripción</ion-label>
-          <ion-input type="text" formControlName="descripcion"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Precio</ion-label>
-          <ion-input type="number" formControlName="precio"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Imagen</ion-label>
-          <img [src]="imagenBase64" *ngIf="servicio">
-          <img [src]="imagenBase64" *ngIf="!servicio">
-          <ion-input type="file" formControlName="imagen" (change)="onFileChange($event)"></ion-input>
-        </ion-item>
-        <ion-button type="submit">{{ estaEditando ? 'Actualizar' : 'Añadir' }}</ion-button>
-        <ion-button type="button" (click)="resetForm()">Cancelar</ion-button>
-      </form>
-    </ion-card-content>
-  </ion-card>
+  <div class="container">
+    <ion-card class="card">
+      <ion-card-header>
+        <ion-card-title class="card-title">{{ estaEditando ? 'Editar Servicio' : 'Añadir Servicio' }}</ion-card-title>
+      </ion-card-header>
 
-  <ion-list>
-    <ion-item *ngFor="let servicio of servicios">
-      <ion-label>
-        <h2>{{ servicio.getNombre() }}</h2>
-        <p>{{ servicio.getDescripcion() }}</p>
-        <p>Precio: {{ servicio.getPrecio() | currency }}</p>
-        <img [src]="servicio.getImagen()" *ngIf="servicio.getImagen()">
-      </ion-label>
-      <ion-button (click)="editServicio(servicio)">Editar</ion-button>
-      <ion-button color="danger" (click)="deleteServicio(servicio)">Eliminar</ion-button>
-    </ion-item>
-  </ion-list>
+      <ion-card-content>
+        <form [formGroup]="formularioServicio" (submit)="anadirActualizrServicio()">
+          <ion-item>
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input type="text" formControlName="nombre"></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="formularioServicio.get('nombre')?.invalid && formularioServicio.get('nombre')?.touched">
+            <p>El nombre es obligatorio</p>
+          </ion-text>
+
+          <ion-item>
+            <ion-label position="floating">Descripción</ion-label>
+            <ion-input type="text" formControlName="descripcion"></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="formularioServicio.get('descripcion')?.invalid && formularioServicio.get('descripcion')?.touched">
+            <p>La descripción es obligatoria</p>
+          </ion-text>
+
+          <ion-item>
+            <ion-label position="floating">Precio</ion-label>
+            <ion-input type="number" formControlName="precio"></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="formularioServicio.get('precio')?.invalid && formularioServicio.get('precio')?.touched">
+            <p>El precio es obligatorio</p>
+          </ion-text>
+
+          <ion-item>
+            <div>
+              <img [src]="imagenBase64" *ngIf="imagenBase64" class="image-preview">
+              <input type="file" id="fileInput" (change)="onFileChange($event)" hidden>
+              <ion-button expand="block" type="button" (click)="triggerFileInput()">Seleccionar Imagen</ion-button>
+            </div>
+          </ion-item>
+
+          <ion-button expand="block" type="submit" [disabled]="!formularioServicio.valid">{{ estaEditando ? 'Actualizar' : 'Añadir' }}</ion-button>
+          <ion-button expand="block" fill="outline" type="button" (click)="resetForm()">Cancelar</ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-list>
+      <ion-item *ngFor="let servicio of servicios" class="service-item">
+        <div class="service-content">
+          <ion-label>
+            <h2>{{ servicio.getNombre() }}</h2>
+            <p>{{ servicio.getDescripcion() }}</p>
+            <p>Precio: {{ servicio.getPrecio() | currency }}</p>
+            <img [src]="servicio.getImagen()" *ngIf="servicio.getImagen()" class="service-image">
+          </ion-label>
+          <div class="buttons-container">
+            <ion-button shape="round" fill="outline" (click)="editServicio(servicio)">Editar</ion-button>
+            <ion-button shape="round" color="danger" fill="outline" (click)="deleteServicio(servicio)">Eliminar</ion-button>
+          </div>
+        </div>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>
-

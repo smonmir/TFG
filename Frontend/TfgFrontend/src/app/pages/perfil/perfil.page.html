@@ -1,67 +1,73 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Perfil</ion-title>
+    <ion-title class="header-title">Perfil</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ionContent">
-  <ion-card class="ionCard">
-    <ion-card-header>
-      <ion-card-title>Cuenta</ion-card-title>
-    </ion-card-header>
-    
-    <ion-card-content>
-      <ion-list *ngIf="usuario">
+<ion-content class="ion-content">
+  <div class="container">
+    <ion-card class="ion-card">
+      <ion-card-header>
+        <ion-card-title>Cuenta</ion-card-title>
+      </ion-card-header>
 
-        <ion-item class="ionItem">
-          <ion-label>
-            <p>Nombre</p>
-            <h1>{{usuario.getNombre()}}</h1>
-          </ion-label>
-          <ion-button class="ionButton" shape="round" (click)="editarCampo('nombre', usuario.getNombre())">
-            Editar
-          </ion-button>
-        </ion-item>
-  
-        <ion-item class="ionItem">
-          <ion-label>
-            <p>Correo</p>
-            <h1>{{usuario.getEmail()}}</h1>
-          </ion-label>
-          <ion-button class="ionButton" shape="round" (click)="editarCampo('correo', usuario.getEmail())">
-            Editar
-          </ion-button>
-        </ion-item>
+      <ion-card-content>
+        <ion-list *ngIf="usuario">
+          <ion-item class="ion-item">
+            <div class="display">
+              <ion-label>
+                <p>Nombre</p>
+                <h1>{{ usuario.getNombre() }}</h1>
+              </ion-label>
+              <ion-button shape="round" fill="outline" (click)="editarCampo('nombre', usuario.getNombre())">
+                Editar
+              </ion-button>
+            </div>
+          </ion-item>
 
-        <ion-item class="ionItem">
-          <ion-label>
-            <p>Contraseña</p>
-            <h1>********</h1>
-          </ion-label>
-          <ion-button class="ionButton" shape="round" (click)="editarCampo('contraseña', '')">
-            Editar
-          </ion-button>
-        </ion-item>
-  
-        <ion-item class="ionItem">
-          <ion-label>
-            <p>Teléfono</p>
-            <h1>{{usuario.getTelefono()}}</h1>
-          </ion-label>
-          <ion-button class="ionButton" shape="round" (click)="editarCampo('telefono', usuario.getTelefono())">
-            Editar
-          </ion-button>
-        </ion-item>
+          <ion-item class="ion-item">
+            <div class="display">
+              <ion-label>
+                <p>Correo</p>
+                <h1>{{ usuario.getEmail() }}</h1>
+              </ion-label>
+              <ion-button shape="round" fill="outline" (click)="editarCampo('correo', usuario.getEmail())">
+                Editar
+              </ion-button>
+            </div>
+          </ion-item>
 
-      </ion-list>
-              
-      <ion-item *ngIf="!usuario" class="ionItem">
-        <ion-label>Usuario no existe</ion-label>
-      </ion-item>
+          <ion-item class="ion-item">
+            <div class="display">
+              <ion-label>
+                <p>Contraseña</p>
+                <h1>********</h1>
+              </ion-label>
+              <ion-button shape="round" fill="outline" (click)="editarCampo('contraseña', '')">
+                Editar
+              </ion-button>
+            </div>
+          </ion-item>
 
-      <ion-button shape="round" (click)="logout()">
-        Cerrar Sesión
-      </ion-button>
-    </ion-card-content>
-  </ion-card>
+          <ion-item class="ion-item">
+            <div class="display">
+              <ion-label>
+                <p>Teléfono</p>
+                <h1>{{ usuario.getTelefono() }}</h1>
+              </ion-label>
+              <ion-button shape="round" fill="outline" (click)="editarCampo('telefono', usuario.getTelefono())">
+                Editar
+              </ion-button>  
+            </div>
+          </ion-item>
+        </ion-list>
+
+        <ion-item *ngIf="!usuario" class="ion-item">
+          <ion-label>Usuario no existe</ion-label>
+        </ion-item>
+      </ion-card-content>
+
+      <ion-button expand="block" (click)="logout()">Cerrar Sesión</ion-button>
+    </ion-card>
+  </div>
 </ion-content>

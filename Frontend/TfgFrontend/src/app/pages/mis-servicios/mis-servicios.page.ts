@@ -12,15 +12,10 @@ import { UsuarioService } from 'src/app/clases/servicios/usuario/usuario.service
 export class MisServiciosPage implements OnInit {
 
   servicios: Servicio[] = [];
-
   servicio!: Servicio;
-
   usuarioId: number | null = null;
-  
   formularioServicio!: FormGroup;
-  
   estaEditando = false;
-
   imagenBase64: string | null = null;
 
   constructor(private servicioService: ServicioService, private usuarioService: UsuarioService , private fb: FormBuilder) { }
@@ -93,6 +88,13 @@ export class MisServiciosPage implements OnInit {
     this.servicio = servicio;
     this.imagenBase64 = servicio.getImagen();
     this.formularioServicio.patchValue(servicio);
+  }
+
+  triggerFileInput() {
+    const fileInput = document.getElementById('fileInput');
+    if (fileInput) {
+      fileInput.click();
+    }
   }
 
   deleteServicio(servicio: Servicio) {

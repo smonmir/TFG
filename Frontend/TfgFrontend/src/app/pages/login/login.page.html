@@ -1,32 +1,38 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>login</ion-title>
+    <ion-title class="header-title">Login</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-card class="card">
-    <ion-card-header>
-      <ion-card-title>Iniciar Sesión</ion-card-title>
-    </ion-card-header>
-  
-    <ion-card-content class="ion-text-center">
-      <form [formGroup]="formularioLogin" (submit)="logueo()">
-        <ion-item>
-          <ion-label position="floating">Email</ion-label>
-          <ion-input type="email" formControlName="email"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Contraseña</ion-label>
-          <ion-input type="password" formControlName="contrasena"></ion-input>
-        </ion-item>
-        <ion-button type="submit">Iniciar sesión</ion-button>
-        <ion-button (click)="registro()">Registrarse</ion-button>
-      </form>
-    </ion-card-content>
-  </ion-card>
+  <div class="container">
+    <ion-card class="card">
+      <ion-card-header>
+        <ion-card-title class="card-title">Iniciar Sesión</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content class="ion-text-center">
+        <form [formGroup]="formularioLogin" (submit)="logueo()">
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input type="email" formControlName="email"></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="formularioLogin.get('email')?.invalid && formularioLogin.get('email')?.touched">
+            <p>El email es obligatorio y debe tener un formato válido</p>
+          </ion-text>
+
+          <ion-item>
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input type="password" formControlName="contrasena"></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="formularioLogin.get('contrasena')?.invalid && formularioLogin.get('contrasena')?.touched">
+            <p>La contraseña es obligatoria</p>
+          </ion-text>
+
+          <ion-button expand="block" type="submit" [disabled]="!formularioLogin.valid">Iniciar sesión</ion-button>
+          <ion-button expand="block" fill="outline" (click)="registro()">Registrarse</ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
-
-
-
-

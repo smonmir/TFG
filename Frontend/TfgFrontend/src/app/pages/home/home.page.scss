@@ -15,6 +15,12 @@ ion-header {
   margin-bottom: 16px;
 }
 
+.image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .service-card {
   img {
     border-top-left-radius: 8px;

@@ -36,7 +36,8 @@ export const getPedido = async (req, res) => {
             ]
         });
         res.json(pedido);
-    } catch (error) {
+    } 
+    catch (error) {
         console.error('Error al obtener pedido:', error);
         return res.status(500).json({
             message: 'Algo fue mal',
@@ -70,7 +71,8 @@ export const getPedidoById = async (req, res) => {
             });
         }
         res.json(pedido);
-    } catch (error) {
+    } 
+    catch (error) {
         console.error('Error al obtener pedido por id: ', error);
         return res.status(500).json({
             message: 'Algo fue mal' 
@@ -118,7 +120,8 @@ export const getPedidosUsuario = async (req, res) => {
       }
   
       res.json(pedidos);
-    } catch (error) {
+    } 
+    catch (error) {
       console.error('Error al obtener pedidos de usuario:', error);
       return res.status(500).json({
         message: 'Algo fue mal'
@@ -170,20 +173,21 @@ export const createPedido = async (req, res) => {
             await sendEmail(
                 vendedor.email,
                 'Nuevo pedido realizado',
-                `El usuario ${comprador.nombre} ha contratado tu servicio "${servicio.nombre}". Ponte en contacto con el cliente con el siguiente número de telefono: "${comprador.telefono}"`
+                `El usuario ${comprador.nombre} ha contratado tu servicio "${servicio.nombre}" en la siguiente dirección: "${direccion}". Ponte en contacto con el cliente con el siguiente número de telefono: "${comprador.telefono}"`
             ); 
         }
         else{
             await sendEmail(
                 vendedor.email,
                 'Nuevo pedido realizado',
-                `El usuario ${comprador.nombre} ha contratado tu servicio "${servicio.nombre}". Ponte en contacto con el cliente con el siguiente número de telefono: "${comprador.telefono}". En caso de que no puedas ponerte en contacto, el cliente ha asignado un segundo numero de telefono: "${telefonoSecundario}"`
+                `El usuario ${comprador.nombre} ha contratado tu servicio "${servicio.nombre}" en la siguiente dirección: "${direccion}". Ponte en contacto con el cliente con el siguiente número de telefono: "${comprador.telefono}". En caso de que no consigas ponerte en contacto, el cliente ha facilitado un segundo numero de telefono: "${telefonoSecundario}"`
             );
         }
         
 
         res.status(201).json(nuevoPedido);
-    } catch (error) {
+    } 
+    catch (error) {
         console.error('Error al crear pedido: ', error);
         return res.status(500).json({
             message: 'Algo fue mal' 
@@ -231,7 +235,8 @@ export const updatePedido = async (req, res) => {
         const pedidoActualizado = await Pedido.findByPk(id);
     
         res.json(pedidoActualizado || datosActualizados);
-    } catch (error) {
+    } 
+    catch (error) {
         console.error('Error al actualizar pedido: ', error);
         return res.status(500).json({
             message: 'Algo fue mal' 
@@ -252,7 +257,8 @@ export const deletePedido = async (req, res) => {
         await pedido.destroy();
 
         res.sendStatus(204);
-    } catch (error) {
+    } 
+    catch (error) {
         console.error('Error al eliminar pedido:', error);
         return res.status(500).json({
             message: 'Algo fue mal' 

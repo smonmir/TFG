@@ -18,7 +18,9 @@
       <ion-row>
         <ion-col *ngFor="let servicio of servicios" size="12" size-sm="6" size-md="4" size-lg="3">
           <ion-card (click)="verDescripcionServicio(servicio)" class="service-card">
-            <img alt="Service Image" [src]="servicio.getImagen()" />
+            <div class="image-wrapper">
+              <img alt="Service Image" [src]="servicio.getImagen()" />
+            </div>
             <ion-card-header>
               <ion-card-title>{{ servicio.getNombre() }}</ion-card-title>
               <ion-card-subtitle>{{ servicio.getPrecio() | currency }}</ion-card-subtitle>
@@ -27,6 +29,7 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+    
 
     <ion-footer>
       <ion-toolbar>

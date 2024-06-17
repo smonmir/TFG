@@ -66,6 +66,13 @@ ion-header {
   }
 }
 
+.image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
 .reviews-list {
   margin-top: 24px;
 

@@ -1,61 +1,53 @@
-.ionContent{
-    height: 1000px;
-}
-
-.ionCard{
-    width: 50%;
-    left: 25%;
-    top: 10%
-}
-
-.ionItem{
-    margin-bottom: 20px;
-}
-
-.ionButton{
-    height: 50px;
-    width: 80px;
-}
 
 
-@media (max-width: 768px) {
-    .ionCard{
-        width: 60%;
-        left: 20%;
-        top: 10%;
+ion-header {
+    .header-title {
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      color: var(--ion-color-primary);
     }
 }
 
-@media (max-width: 768px) {
-    .ionCard{
-        width: 70%;
-        left: 15%;
-        top: 10%;
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 16px;
+}
+
+.ion-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 16px;
+}
+  
+.ion-card {
+    width: 100%;
+    max-width: 400px;
+    margin: 16px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  
+    ion-card-header {
+      background-color: var(--ion-color-primary);
     }
+}  
+
+ion-button{
+    margin-top: 10px;
+}
+
+ion-label{
+    margin-top: 20px;
 }
 
 
-@media (max-width: 520px) {
-    .ionCard{
-        width: 90%;
-        left: 5%;
-        top: 10%;
-    }
-}
-
-
-@media (max-width: 400px) {
-    .ionCard{
-        width: 95%;
-        left: 0px;
-        top: 10%;
-    }
-}
-
-@media (max-width: 321px) {
-    .ionCard{
-        width: 100%;
-        left: -10px;
-        top: 10%;
-    }
+.display {
+    display: block;
 }

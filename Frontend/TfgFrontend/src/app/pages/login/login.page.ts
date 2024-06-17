@@ -21,6 +21,13 @@ export class LoginPage implements OnInit {
     });
   }
 
+  ionViewWillEnter() {
+    this.formularioLogin = new FormGroup({
+      email: new FormControl('', [Validators.required]),
+      contrasena: new FormControl('', [Validators.required])
+    });
+  }
+
 
   async logueo(): Promise<void>{
     try{

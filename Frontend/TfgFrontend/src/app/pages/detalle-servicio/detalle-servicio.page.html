@@ -12,7 +12,9 @@
 
   <div *ngIf="!cargando">
     <ion-card *ngIf="servicio">
-      <img [src]="servicio.getImagen()" alt="{{ servicio.getNombre() }}" />
+      <div class="image-wrapper">
+        <img alt="Service Image" [src]="servicio.getImagen()" />
+      </div>
       <ion-card-header>
         <ion-card-title>{{ servicio.getNombre() }}</ion-card-title>
         <ion-card-subtitle>{{ servicio.getPrecio() | currency }}</ion-card-subtitle>
