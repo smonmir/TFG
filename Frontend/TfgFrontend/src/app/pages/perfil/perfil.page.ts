@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { Usuario } from 'src/app/clases/modelos/usuario/usuario';
 import { UsuarioService } from 'src/app/clases/servicios/usuario/usuario.service';
 
@@ -13,7 +13,7 @@ export class PerfilPage implements OnInit {
 
   usuario!: Usuario;
 
-  constructor(private router: Router, private usuarioService: UsuarioService, private alertController: AlertController) { }
+  constructor(private router: Router, private usuarioService: UsuarioService, private alertController: AlertController, private toastController: ToastController) { }
 
   ngOnInit() {
     this.usuario = this.usuarioService.getUsuario();
@@ -47,11 +47,22 @@ export class PerfilPage implements OnInit {
           handler: async (data) => {
             const nuevoValor = data[campo];
             if (nuevoValor) {
-              try {
-                await this.usuarioService.actualizarUsuario({ [campo]: nuevoValor });
-                this.usuario = this.usuarioService.getUsuario();
-              } catch (error) {
-                console.error(`Error al actualizar ${campo}:`, error);
+              if (campo === 'telefono' && nuevoValor.length !== 9) {
+                this.presentToast('El número de teléfono debe tener 9 caracteres');
+              }
+              else{
+                try {
+                  await this.usuarioService.actualizarUsuario({ [campo]: nuevoValor });
+                  this.presentToast(`${campo} actualizado correctamente`);
+                } 
+                catch (error: any) {
+                  console.error(`Error al actualizar ${campo}:`, error);
+                  if (error.status === 400) {
+                    this.presentToast(error.error.message);
+                  } else {
+                    this.presentToast(`Error al actualizar ${campo}`);
+                  }
+                }
               }
             }
           }
@@ -60,6 +71,15 @@ export class PerfilPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'top'
+    });
+    toast.present();
   }
 
 

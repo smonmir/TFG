@@ -53,20 +53,40 @@ export class UsuarioService {
     if (rol == "vendedor") {
       rol_id = 3;
     }
-    return await this.httpClientService.registro(nombre, email, contrasena, telefono, rol_id, this.USER_URL);
+    try{
+      return await this.httpClientService.registro(nombre, email, contrasena, telefono, rol_id, this.USER_URL);
+    }
+    catch(error){
+      throw(error)
+    }
   }
 
   async enviarCodigoVerificacion(email: string): Promise<any> {
-    return await this.httpClientService.enviarCodigoVerificacion(email, this.USER_URL);
+    try{
+      return await this.httpClientService.enviarCodigoVerificacion(email, this.USER_URL);
+    }
+    catch(error){
+      throw(error)
+    }
   }
 
   async verificarCodigo(email: string, codigo: string): Promise<any> {
-    return await this.httpClientService.verificarCodigo(email, codigo, this.USER_URL);
+    try{
+      return await this.httpClientService.verificarCodigo(email, codigo, this.USER_URL);
+    }
+    catch(error){
+      throw(error)
+    }
   }
 
   async logout(): Promise<any>{
-    this.usuarioAutenticado= false;
-    return this.localStorageService.removeToken();
+    try{
+      this.usuarioAutenticado= false;
+      return this.localStorageService.removeToken();
+    }
+    catch(error){
+      throw(error)
+    }
   }
 
   getUsuario(){
@@ -98,11 +118,16 @@ export class UsuarioService {
   async actualizarUsuario(data: any): Promise<any> {
     const token = this.localStorageService.getToken();
     if (!token) throw new Error('Token no encontrado');
-    const usuarioData = await this.httpClientService.patch<any>(`usuario/${this.usuario.getId()}`, data, token);
-    this.usuario.setContrasena(usuarioData.contrasena);
-    this.usuario.setEmail(usuarioData.email);
-    this.usuario.setNombre(usuarioData.nombre);
-    this.usuario.setTelefono(usuarioData.telefono);
+    try {
+      const usuarioData = await this.httpClientService.patch<any>(`usuario/${this.usuario.getId()}`, data, token);
+      this.usuario.setContrasena(usuarioData.contrasena);
+      this.usuario.setEmail(usuarioData.email);
+      this.usuario.setNombre(usuarioData.nombre);
+      this.usuario.setTelefono(usuarioData.telefono);
+    } 
+    catch (error) {
+      throw error;
+    }
   }
 
 }

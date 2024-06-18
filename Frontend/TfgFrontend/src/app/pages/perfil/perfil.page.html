@@ -60,6 +60,15 @@
               </ion-button>  
             </div>
           </ion-item>
+
+          <ion-item class="ion-item">
+            <div class="display">
+              <ion-label>
+                <p>Rol</p>
+                <h1>{{ usuario.getRol().getNombre() }}</h1>
+              </ion-label>
+            </div>
+          </ion-item>
         </ion-list>
 
         <ion-item *ngIf="!usuario" class="ion-item">

@@ -12,24 +12,64 @@ export class HttpClientService {
 
   
   async login(email: string, contrasena: string, USER_URL: string): Promise<any> {
-    return await this.http.post<any>(`${this.API_URL}/${USER_URL}/login`, { email: email, contrasena: contrasena }).toPromise();
+    try{
+      return await this.http.post<any>(`${this.API_URL}/${USER_URL}/login`, { email: email, contrasena: contrasena }).toPromise();
+    }
+    catch (error: any) {
+      if (error.status && error.error) {
+        throw error;
+      }
+      throw new Error('Error desconocido');
+    }
   }
 
   async registro(nombre: string, email: string, contrasena: string, telefono: string, rol_id: number, USER_URL: string): Promise<any> {
-    return await this.http.post<any>(`${this.API_URL}/${USER_URL}`, { nombre: nombre, email: email, contrasena: contrasena, telefono: telefono, rol_id: rol_id }).toPromise();
+    try{
+      return await this.http.post<any>(`${this.API_URL}/${USER_URL}`, { nombre: nombre, email: email, contrasena: contrasena, telefono: telefono, rol_id: rol_id }).toPromise();
+    }
+    catch (error: any) {
+      if (error.status && error.error) {
+        throw error;
+      }
+      throw new Error('Error desconocido');
+    }
   }
 
   async enviarCodigoVerificacion(email: string, USER_URL: string): Promise<any> {
-    return await this.http.post<any>(`${this.API_URL}/${USER_URL}/codigo/enviarCodigo`, { email }).toPromise();
+    try{
+      return await this.http.post<any>(`${this.API_URL}/${USER_URL}/codigo/enviarCodigo`, { email }).toPromise();
+    }
+    catch (error: any) {
+      if (error.status && error.error) {
+        throw error;
+      }
+      throw new Error('Error desconocido');
+    }
   }
 
   async verificarCodigo(email: string, codigo: string, USER_URL: string): Promise<any> {
-    return await this.http.post<any>(`${this.API_URL}/${USER_URL}/verificarCodigo`, { email, codigo }).toPromise();
+    try{
+      return await this.http.post<any>(`${this.API_URL}/${USER_URL}/verificarCodigo`, { email, codigo }).toPromise();
+    }
+    catch (error: any) {
+      if (error.status && error.error) {
+        throw error;
+      }
+      throw new Error('Error desconocido');
+    }
   }
 
   async verifyToken(token: string, USER_URL: string): Promise<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return await this.http.get<any>(`${this.API_URL}/${USER_URL}/me`, { headers }).toPromise();
+    try{
+      return await this.http.get<any>(`${this.API_URL}/${USER_URL}/me`, { headers }).toPromise();
+    }
+    catch (error: any) {
+      if (error.status && error.error) {
+        throw error;
+      }
+      throw new Error('Error desconocido');
+    }
   }
 
   /*
@@ -50,15 +90,30 @@ export class HttpClientService {
       headers: headers,
       params: params
     };
-
-    return await this.http.get<T>(`${this.API_URL}/${url}`, options).toPromise();
+    try{
+      return await this.http.get<T>(`${this.API_URL}/${url}`, options).toPromise();
+    }
+    catch (error: any) {
+      if (error.status && error.error) {
+        throw error;
+      }
+      throw new Error('Error desconocido');
+    }
   }
 
   async post<T>(url: string, data: any, token: any): Promise<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return await this.http.post<T>(`${this.API_URL}/${url}`, data, { headers }).toPromise();
+    try{
+      return await this.http.post<T>(`${this.API_URL}/${url}`, data, { headers }).toPromise();
+    }
+    catch (error: any) {
+      if (error.status && error.error) {
+        throw error;
+      }
+      throw new Error('Error desconocido');
+    }
   }
 
   async patch<T>(url: string, data: any, token: any): Promise<any> {
@@ -66,7 +121,15 @@ export class HttpClientService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
-    return await this.http.patch<T>(`${this.API_URL}/${url}`, data, {headers}).toPromise();
+    try {
+      return await this.http.patch<T>(`${this.API_URL}/${url}`, data, { headers }).toPromise();
+    } 
+    catch (error: any) {
+      if (error.status && error.error) {
+        throw error;
+      }
+      throw new Error('Error desconocido');
+    }
   }
 
   async delete<T>(url: string, token: any): Promise<any> {
@@ -74,6 +137,14 @@ export class HttpClientService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
-    return await this.http.delete<T>(`${this.API_URL}/${url}`,  {headers}).toPromise();
+    try {
+      return await this.http.delete<T>(`${this.API_URL}/${url}`,  {headers}).toPromise();
+    }
+    catch(error: any){
+      if (error.status && error.error) {
+        throw error;
+      }
+      throw new Error('Error desconocido');
+    }
   }
 }

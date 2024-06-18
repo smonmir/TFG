@@ -6,7 +6,7 @@
 
 <ion-content class="pedido-container">
   <div class="container">
-    <ion-list>
+    <ion-list *ngIf="pedidos">
       <ion-item *ngFor="let pedido of pedidos" class="pedido-item">
         <ion-card>
           <ion-card-header>
@@ -61,5 +61,10 @@
         </ion-card>
       </ion-item>
     </ion-list>
+    <ion-item *ngIf="!pedidos">
+      <div>
+        <ion-label>No se ha realizado ningun pedido</ion-label>
+      </div>
+    </ion-item>
   </div>
 </ion-content>

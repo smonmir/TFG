@@ -166,7 +166,7 @@ export const createPedido = async (req, res) => {
         await sendEmail(
             comprador.email,
             'Confirmación de pedido',
-            `Has contratado el servicio "${servicio.nombre}". Pronto el vendedor se prondra contigo con el siguiente numero: "${vendedor.telefono}"`
+            `Has contratado el servicio "${servicio.nombre}". Pronto el vendedor se prondrá en contacto contigo con el siguiente numero de teléfono: "${vendedor.telefono}"`
         );
 
         if(telefonoSecundario){

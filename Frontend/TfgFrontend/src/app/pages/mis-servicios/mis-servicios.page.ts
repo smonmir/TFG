@@ -21,11 +21,25 @@ export class MisServiciosPage implements OnInit {
   constructor(private servicioService: ServicioService, private usuarioService: UsuarioService , private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.servicios = []
+    this.imagenBase64 = null;
     this.formularioServicio = new FormGroup({
       nombre: new FormControl('', [Validators.required]),
       descripcion: new FormControl ('', [Validators.required]),
       precio: new FormControl('', [Validators.required, Validators.min(0)]),
       imagen: new FormControl(null)
+    });
+    this.cargarServicios();
+  }
+
+  ionViewWillEnter() {
+    this.servicios = []
+    this.imagenBase64 = null;
+    this.formularioServicio = new FormGroup({
+      nombre: new FormControl('', [Validators.required]),
+      descripcion: new FormControl ('', [Validators.required]),
+      precio: new FormControl('', [Validators.required, Validators.min(0)]),
+      imagen: new FormControl('', [Validators.required])
     });
     this.cargarServicios();
   }
@@ -79,6 +93,7 @@ export class MisServiciosPage implements OnInit {
     const reader = new FileReader();
     reader.onloadend = () => {
       this.imagenBase64 = reader.result as string;
+      this.formularioServicio.get('imagen')?.setValue(this.imagenBase64)
     };
     reader.readAsDataURL(file);
   }

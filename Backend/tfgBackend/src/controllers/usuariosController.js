@@ -209,6 +209,21 @@ export const updateUsuario = async (req, res) => {
             }
         }
 
+        if (nombre && nombre !== usuario.nombre) {
+            const nombreExistente = await Usuario.findOne({ where: { nombre } });
+            if (nombreExistente) {
+                return res.status(400).json({ message: 'El nombre ya está en uso' });
+            }
+        }
+
+        if (email && email !== usuario.email) {
+            const emailExistente = await Usuario.findOne({ where: { email } });
+            if (emailExistente) {
+                return res.status(400).json({ message: 'El email ya está en uso' });
+            }
+        }
+
+
         const datosActualizados = {};
 
         datosActualizados.nombre = nombre || usuario.nombre;
