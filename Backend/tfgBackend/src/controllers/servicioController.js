@@ -3,7 +3,6 @@ import { Usuario } from '../models/usuarioModel.js'
 import { Rol } from '../models/rolModel.js';
 import { Sequelize } from 'sequelize';
 import { Valoracion } from '../models/valoracionModel.js';
-import { ServicioCategoria } from '../models/servicioCategoriaModel.js';
 import { Pedido } from '../models/pedidoModel.js';
 
 export const getServicio = async (req, res) => {
@@ -62,7 +61,7 @@ export const getServicioById = async (req, res) => {
 
 export const getServiciosPaginados = async (req, res) => {
     try {
-        const { page = 1, limit = 8, search = '' } = req.query;
+        const { page = 1, limit = 8, search = '', sortPrice = '', sortRating = '' } = req.query;
 
         const offset = (page - 1) * limit;
 
@@ -73,27 +72,41 @@ export const getServiciosPaginados = async (req, res) => {
             ]
         };
 
-        console.log(offset)
+        let order = [];
+
+        if (sortPrice) {
+            order.push(['precio', sortPrice]);
+        }
+
+        if (sortRating) {
+            // Aquí se usa una subconsulta para ordenar por puntuación de Valoracion
+            order.push([Valoracion, 'puntuacion', sortRating]);
+        }
 
         const { count, rows } = await Servicio.findAndCountAll({
             where: whereCondition,
             include: [
-              {
-                model: Usuario,
-                attributes: ['id', 'nombre', 'email', 'telefono'],
-                include: [{
-                  model: Rol,
-                  attributes: ['id', 'nombre', 'descripcion']
-                }]
-              }
+                {
+                    model: Usuario,
+                    attributes: ['id', 'nombre', 'email', 'telefono'],
+                    include: [{
+                        model: Rol,
+                        attributes: ['id', 'nombre', 'descripcion']
+                    }]
+                },
+                {
+                    model: Valoracion,
+                    attributes: ['puntuacion'],  // Incluye puntuación para usar en la ordenación
+                }
             ],
             offset: offset,
             limit: parseInt(limit),
+            order: order,
+            distinct: true  // Necesario para que `count` sea correcto con `include`
         });
 
         const totalPages = Math.ceil(count / limit);
         res.json({ servicios: rows, totalPages: totalPages, currentPage: parseInt(page) });
-        
     } catch (error) {
         console.error('Error al obtener servicios paginados:', error);
         return res.status(500).json({
@@ -101,6 +114,49 @@ export const getServiciosPaginados = async (req, res) => {
         });
     }
 };
+  
+/*
+export const getServiciosPaginados = async (req, res) => {
+    try {
+      const { page = 1, limit = 8, search = '', order = 'asc' } = req.query;
+  
+      const offset = (page - 1) * limit;
+  
+      const whereCondition = {
+        [Sequelize.Op.or]: [
+          { nombre: { [Sequelize.Op.like]: `%${search}%` } },
+          { descripcion: { [Sequelize.Op.like]: `%${search}%` } }
+        ]
+      };
+  
+      const { count, rows } = await Servicio.findAndCountAll({
+        where: whereCondition,
+        include: [
+          {
+            model: Usuario,
+            attributes: ['id', 'nombre', 'email', 'telefono'],
+            include: [{
+              model: Rol,
+              attributes: ['id', 'nombre', 'descripcion']
+            }]
+          }
+        ],
+        offset: offset,
+        limit: parseInt(limit),
+        order: [['precio', order]]
+      });
+  
+      const totalPages = Math.ceil(count / limit);
+      res.json({ servicios: rows, totalPages: totalPages, currentPage: parseInt(page) });
+      
+    } catch (error) {
+      console.error('Error al obtener servicios paginados:', error);
+      return res.status(500).json({
+        message: 'Algo fue mal',
+      });
+    }
+  };
+*/
 
 
 export const getServiciosUsuario = async (req, res) => {

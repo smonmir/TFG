@@ -14,22 +14,24 @@ export class HomePage {
   currentPage: number = 1;
   totalPages: number = 1;
   searchQuery: string = '';
+  ordenPrecio: string = '';
+  ordenRating: string = '';
 
   constructor(private router: Router, private servicioService: ServicioService) {}
 
-
   ngOnInit() {
+    this.servicios = [];
     this.cargarServicios();
   }
 
   ionViewWillEnter() {
+    this.servicios = [];
     this.cargarServicios();
   }
 
-
   async cargarServicios() {
     try {
-      const data = await this.servicioService.getServiciosPaginados(this.currentPage, 8, this.searchQuery);
+      const data = await this.servicioService.getServiciosPaginados(this.currentPage, 4, this.searchQuery, this.ordenPrecio, this.ordenRating);
       this.servicios = data.servicios;
       this.totalPages = data.totalPages;
       this.currentPage = data.currentPage;
@@ -40,6 +42,25 @@ export class HomePage {
 
   async onSearchChange(event: any) {
     this.searchQuery = event.target.value;
+    this.currentPage = 1;
+    await this.cargarServicios();
+  }
+
+  async onFilterChange(event: any) {
+    const filterValue = event.detail.value;
+    this.ordenPrecio = '';
+    this.ordenRating = '';
+
+    if (filterValue === 'precioDesc') {
+      this.ordenPrecio = 'desc';
+    } else if (filterValue === 'precioAsc') {
+      this.ordenPrecio = 'asc';
+    } else if (filterValue === 'ratingDesc') {
+      this.ordenRating = 'desc';
+    } else if (filterValue === 'ratingAsc') {
+      this.ordenRating = 'asc';
+    }
+
     this.currentPage = 1;
     await this.cargarServicios();
   }
@@ -58,9 +79,8 @@ export class HomePage {
     }
   }
 
-  verDescripcionServicio(servicio: Servicio): void {
+  verDescripcionServicio(servicio: any): void {
     this.servicioService.setServicio(servicio);
     this.router.navigate(['tabs/detalle-servicio']);
   }
-
 }

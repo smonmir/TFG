@@ -14,6 +14,27 @@
       ></ion-searchbar>
     </div>
 
+    <div class="filter-container">
+      <ion-segment (ionChange)="onFilterChange($event)">
+        <div class="display">
+          <ion-segment-button value="precioDesc">
+            <ion-label>Precio Desc</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="precioAsc">
+            <ion-label>Precio Asc</ion-label>
+          </ion-segment-button>
+        </div>
+        <div class="display">
+          <ion-segment-button value="ratingDesc">
+            <ion-label>Mejor Valorados</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="ratingAsc">
+            <ion-label>Peor Valorados</ion-label>
+          </ion-segment-button>
+        </div>
+      </ion-segment>
+    </div>
+
     <ion-grid>
       <ion-row>
         <ion-col *ngFor="let servicio of servicios" size="12" size-sm="6" size-md="4" size-lg="3">
@@ -30,7 +51,6 @@
       </ion-row>
     </ion-grid>
     
-
     <ion-footer>
       <ion-toolbar>
         <ion-row class="ion-justify-content-between">
@@ -45,5 +65,3 @@
     </ion-footer>
   </div>
 </ion-content>
-
-

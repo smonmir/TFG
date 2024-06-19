@@ -1,6 +1,5 @@
 import {sequelizeBd, Sequelize} from '../../db/db.js'
 import { Usuario } from './usuarioModel.js'
-import { Servicio } from './servicioModel.js';
 
 
 export const Valoracion = sequelizeBd.define('valoracion', {
@@ -46,4 +45,7 @@ export const Valoracion = sequelizeBd.define('valoracion', {
 
 Valoracion.belongsTo(Usuario, { foreignKey: 'usuario_id', onDelete: 'cascade' });
 
+import { Servicio } from './servicioModel.js';
+
 Valoracion.belongsTo(Servicio, { foreignKey: 'servicio_id', onDelete: 'cascade' });
+Servicio.hasMany(Valoracion, { foreignKey: 'servicio_id', onDelete: 'cascade' });

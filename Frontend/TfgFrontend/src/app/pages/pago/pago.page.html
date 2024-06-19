@@ -1,11 +1,14 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/detalle-servicio"></ion-back-button>
+    </ion-buttons>
     <ion-title class="header-title">Realizar Pago</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="payment-form">
-  <form (ngSubmit)="realizarPago()" #pagoForm="ngForm">
+  <form [formGroup]="pagoForm" (ngSubmit)="realizarPago()">
     <ion-card>
       <ion-card-header>
         <ion-card-title>Detalles del Servicio</ion-card-title>
@@ -34,17 +37,23 @@
       <ion-card-content>
         <ion-item>
           <ion-label position="stacked" class="ionLabelPerso">Dirección</ion-label>
-          <ion-input type="text" required [(ngModel)]="detalleContratacion.direccion" name="direccion"></ion-input>
+          <ion-input type="text" formControlName="direccion" required></ion-input>
         </ion-item>
+        <ion-text color="danger" *ngIf="pagoForm.get('direccion')?.invalid && pagoForm.get('direccion')?.touched">
+          <p *ngIf="pagoForm.get('direccion')?.hasError('required')">Requerido</p>
+        </ion-text>
 
         <ion-item>
           <ion-label position="stacked" class="ionLabelPerso">Teléfono secundario (opcional)</ion-label>
-          <ion-input type="number" [(ngModel)]="detalleContratacion.telefono" name="telefono"></ion-input>
+          <ion-input type="number" formControlName="telefono"></ion-input>
         </ion-item>
+        <ion-text color="danger" *ngIf="pagoForm.get('telefono')?.invalid">
+          <p>El teléfono debe tener 9 dígitos y no debe contener letras</p>
+        </ion-text>
       </ion-card-content>
     </ion-card>
 
-    <ion-button expand="block" type="submit" [disabled]="!pagoForm.form.valid">Contratar</ion-button>
+    <ion-button expand="block" type="submit" [disabled]="!pagoForm.valid">Contratar</ion-button>
+    <ion-button expand="block" (click)="onReturn()">Volver</ion-button>
   </form>
 </ion-content>
-

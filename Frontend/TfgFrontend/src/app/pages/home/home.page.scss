@@ -21,6 +21,14 @@ ion-header {
   align-items: center;
 }
 
+.display{
+  display: flex;
+}
+
+.filter-container{
+  margin-right: 20px;
+}
+
 .service-card {
   img {
     border-top-left-radius: 8px;

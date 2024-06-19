@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Servicio } from 'src/app/clases/modelos/servicio/servicio';
 import { PedidoService } from 'src/app/clases/servicios/pedido/pedido.service';
@@ -11,28 +12,29 @@ import { PedidoService } from 'src/app/clases/servicios/pedido/pedido.service';
 export class PagoPage implements OnInit {
 
   servicio!: Servicio;
+  pagoForm!: FormGroup;
 
-  detalleContratacion = {
-    direccion: '',
-    telefono: undefined
-  };
-
-  constructor(private router: Router, private servicioPedido: PedidoService) { }
+  constructor(private router: Router, private servicioPedido: PedidoService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.servicio = this.servicioPedido.getServicio();
+    this.pagoForm = this.formBuilder.group({
+      direccion: ['', Validators.required],
+      telefono: ['', [Validators.pattern('^[0-9]{9}$')]]
+    });
   }
+
   ionViewWillEnter() {
     this.servicio = this.servicioPedido.getServicio();
   }
 
   async realizarPago() {
-    if (!this.detalleContratacion.direccion) {
-      console.error('Todos los campos son obligatorios');
+    if (this.pagoForm.invalid) {
+      console.error('Todos los campos son obligatorios y el teléfono debe tener 9 caracteres si se proporciona.');
       return;
     }
     try {
-      await this.servicioPedido.realizarPago(this.detalleContratacion);
+      await this.servicioPedido.realizarPago(this.pagoForm.value);
       console.log('Pago realizado con éxito');
       this.router.navigate(['/tabs/home']);
     } catch (error) {
@@ -40,4 +42,7 @@ export class PagoPage implements OnInit {
     }
   }
 
+  onReturn(){
+    this.router.navigate(['/tabs/detalle-servicio']);
+  }
 }
