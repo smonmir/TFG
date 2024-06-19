@@ -33,7 +33,7 @@ CREATE TABLE `usuario` (
   KEY `rol_id` (`rol_id`),
   CONSTRAINT `fk_usuario_rol` FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `rol_id` FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (31,'usu4','usu4@gmail.com',NULL,'$2b$10$wM8Bp3Soj5wjZA0i/MqRYeVzUddqBYoSvfuIkQotVMNNRphgeF2YO',2),(33,'usu1@gmail.com','usu1@gmail.com',NULL,'$2b$10$mK.YSr93xguynaKvhzVWkuUCVsqZPAIZLLaqlv//F53CAwoX4l1IO',2),(34,'usu3','usu3@gmail.com',NULL,'$2b$10$d391nJD69RG/vNwHigYl8.EaY7F0MgQIVV75PNE.nCJDh65vxNuDW',2),(35,'usu2','usu2@gmail.com',NULL,'$2b$10$EK.vTODYC33BpL.eWbbOoOz4QaU6XPD.5J7uGo1Zt2q1aVODnzuP6',3),(36,'usu','usu@gmail.com','123456789','$2b$10$jQgpUih/9guF5h7uS47ubOQI9FGesRpls9S/GbQyvyAwdL83lY39i',2),(42,'vendedor1','vendedor1@gmail.com','123456789','$2b$10$gb5sIpPCnXCXOroZofaM9el1ox4KCMYfZAwJchHNy6hGdDX6.D4JS',3),(43,'vendedor2','vendedor2@gmail.com',NULL,'$2b$10$79.m..MMTX.s7uGIyrlyjOpaTeqlgHr5C1XLlb.u15BTzVZdOukwK',3),(44,'santi','monroux.miranda@gmail.com',NULL,'$2b$10$aksmILBcp5KYZC1RJK0YbefkNwIfvbiibF9pFp6SwLHnkcqg7DaQi',2);
+INSERT INTO `usuario` VALUES (35,'usu2','usu2@gmail.com','123456788','$2b$10$EK.vTODYC33BpL.eWbbOoOz4QaU6XPD.5J7uGo1Zt2q1aVODnzuP6',3),(36,'usu','usu@gmail.com','123456789','$2b$10$jQgpUih/9guF5h7uS47ubOQI9FGesRpls9S/GbQyvyAwdL83lY39i',2);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-13  0:42:04
+-- Dump completed on 2024-06-20  1:26:25
