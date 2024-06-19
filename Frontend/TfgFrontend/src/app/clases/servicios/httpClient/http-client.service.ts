@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 export class HttpClientService {
 
   private readonly API_URL = 'https://tfg-backend-production-bd12.up.railway.app/api';
+  //private readonly API_URL = 'http://localhost:3000/api';
   
   constructor(private http: HttpClient) { }
 
