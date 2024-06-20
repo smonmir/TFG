@@ -92,8 +92,6 @@ export const deleteEstado = async (req, res) => {
             return res.status(404).json({ message: 'Estado no encontrado' });
         }
 
-        //await Pedido.destroy({ where: { estado_id: id } });
-
         await estado.destroy({
             where: { id: id },
             cascade: true

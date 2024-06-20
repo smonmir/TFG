@@ -1,12 +1,10 @@
 import {Router} from 'express'
-import {enviarCodigoVerificacion, verificarCodigo, createUsuario, login, getUsuario, getMe, getUsuarioById, updateUsuario, deleteUsuario} from '../controllers/usuariosController.js'
+import {enviarCodigoVerificacion, verificarCodigo, createUsuario, login, getUsuario, getMe, updateUsuario, deleteUsuario} from '../controllers/usuariosController.js'
 import {authMiddleware} from '../middleware/authMiddleware.js'
 
 const router = Router();
 
 router.get('/usuario', getUsuario)
-
-//router.get('/usuario/:id', getUsuarioById)
 
 router.get('/usuario/me', authMiddleware, getMe); //Para ver si el usuario ya esta logueado
 

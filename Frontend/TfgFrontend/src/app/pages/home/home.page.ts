@@ -53,11 +53,14 @@ export class HomePage {
 
     if (filterValue === 'precioDesc') {
       this.ordenPrecio = 'desc';
-    } else if (filterValue === 'precioAsc') {
+    } 
+    else if (filterValue === 'precioAsc') {
       this.ordenPrecio = 'asc';
-    } else if (filterValue === 'ratingDesc') {
+    } 
+    else if (filterValue === 'ratingDesc') {
       this.ordenRating = 'desc';
-    } else if (filterValue === 'ratingAsc') {
+    } 
+    else if (filterValue === 'ratingAsc') {
       this.ordenRating = 'asc';
     }
 

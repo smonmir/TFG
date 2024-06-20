@@ -166,14 +166,14 @@ export const createPedido = async (req, res) => {
         await sendEmail(
             comprador.email,
             'Confirmación de pedido',
-            `Has contratado el servicio "${servicio.nombre}". Pronto el vendedor se prondrá en contacto contigo con el siguiente numero de teléfono: "${vendedor.telefono}"`
+            `Has contratado el servicio "${servicio.nombre}". Pronto el vendedor se prondrá en contacto contigo con el siguiente número de teléfono: "${vendedor.telefono}"`
         );
 
         if(!telefonoSecundario){
             await sendEmail(
                 vendedor.email,
                 'Nuevo pedido realizado',
-                `El usuario ${comprador.nombre} ha contratado tu servicio "${servicio.nombre}" en la siguiente dirección: "${direccion}". Ponte en contacto con el cliente con el siguiente número de telefono: "${comprador.telefono}"`
+                `El usuario ${comprador.nombre} ha contratado tu servicio "${servicio.nombre}" en la siguiente dirección: "${direccion}". Ponte en contacto con el cliente con el siguiente número de teléfono: "${comprador.telefono}"`
             ); 
 
         }
@@ -181,7 +181,7 @@ export const createPedido = async (req, res) => {
             await sendEmail(
                 vendedor.email,
                 'Nuevo pedido realizado',
-                `El usuario ${comprador.nombre} ha contratado tu servicio "${servicio.nombre}" en la siguiente dirección: "${direccion}". Ponte en contacto con el cliente con el siguiente número de telefono: "${comprador.telefono}". En caso de que no consigas ponerte en contacto, el cliente ha facilitado un segundo numero de telefono: "${telefonoSecundario}"`
+                `El usuario ${comprador.nombre} ha contratado tu servicio "${servicio.nombre}" en la siguiente dirección: "${direccion}". Ponte en contacto con el cliente con el siguiente número de teléfono: "${comprador.telefono}". En caso de que no consigas ponerte en contacto, el cliente ha facilitado un segundo número de teléfono: "${telefonoSecundario}"`
             );
         }
         

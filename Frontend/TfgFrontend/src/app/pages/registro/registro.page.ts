@@ -18,6 +18,7 @@ export class RegistroPage implements OnInit {
   constructor(private router: Router, private usuarioService: UsuarioService) { }
 
   ngOnInit() {
+    this.mostrarCodigoVerificacion = false
     this.formularioRegistro = new FormGroup({
       nombre: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -31,6 +32,7 @@ export class RegistroPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.mostrarCodigoVerificacion = false
     this.formularioRegistro = new FormGroup({
       nombre: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
